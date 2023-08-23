@@ -1,9 +1,6 @@
 * Add save image in add user under User Management.
 
 
-* Modify databales show entries to 5 pagination only.
-
-
 * add default text like "-select-" for option tags for register and add user.
 
 
