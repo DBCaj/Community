@@ -84,6 +84,7 @@
                         <tr>
                             <th class="p-3 font-normal">ID</th>
                             <th class="p-3 font-normal">Name</th>
+                            <th class="p-3 font-normal">Email</th>
                             <th class="p-3 font-normal">Role</th>
                             <th class="p-3 font-normal">Department</th>
                             <th class="p-3 font-normal">Status</th>
@@ -102,6 +103,9 @@
                             </td>
                             <td class="p-3">
                                 {{ $item['firstname'] }}
+                            </td>
+                            <td class="p-3">
+                                {{ $item['email'] }}
                             </td>
                             <td class="p-3">
                                 {{ $item['role'] }}
@@ -147,50 +151,16 @@
                                 </div>
                             </td> --}}
                             <td class="p-3 font-normal text-sm">
-                                <div @click.away="open = false" class="relative" x-data="{ open: false }">
-                                    <div>
-                                        <button @click="open = !open"   class="max-w-xs flex items-center text-sm outline-none focus:outline-none focus:shadow-solid transition-all duration-300">
-                                            <span :class="{ 'bg-blue-500': open === true,'': open === false }" class="flex items-center justify-center group  hover:bg-blue-500 p-1 rounded-full transition-all duration-300">
-                                                <svg :class="{ 'text-white': open === true,'text-[#8a82a1]': open === false }" aria-hidden="true" focusable="false" data-prefix="far" data-icon="ellipsis-v" class="w-5 h-5 group-hover:text-white transition-all duration-300" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><path fill="currentColor" d="M64 208c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zM16 104c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48-48 21.5-48 48zm0 304c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48-48 21.5-48 48z"></path></svg>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <div x-show="open"
-                                    x-transition:enter="transition ease-out duration-100"
-                                    x-transition:enter-start="transform opacity-0 scale-95"
-                                    x-transition:enter-end="transform opacity-100 scale-100"
-                                    x-transition:leave="transition ease-in duration-75"
-                                    x-transition:leave-start="transform opacity-100 scale-100"
-                                    x-transition:leave-end="transform opacity-0 scale-95"
-                                    class="origin-center absolute mt-2 -ml-10 w-32 rounded-md shadow-lg z-10">
-                                      <div class="py-1 rounded-md bg-white shadow-xs">
-                                        {{-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-200 transition ease-in-out duration-150">Edit</a> --}}
-
-                                        {{-- <a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-200 transition ease-in-out duration-150">Delete</a> --}}
-
-
-                                        <!------------------------------------------------- EDIT BUTTON - START --------------------------------------------------->
-                                        <a href="{{ route('edit.form', $item->id) }}" role="button" style="color: blue;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-200 transition ease-in-out duration-150">Edit</a>
-                                        <!------------------------------------------------- EDIT BUTTON -  END --------------------------------------------------->
-
-
-                                        <!------------------------------------------------- DELETE BUTTON - T START --------------------------------------------------->
-                                        <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" onclick="return confirm('Are you sure you want to delete this item?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-200 transition ease-in-out duration-150" style="color: red;">
-                                            Delete
-                                        </a>
-
-                                        {{-- <a href="{{ url('/tasks/' . $task->id . '/delete') }}" role="button" onclick="event.preventDefault(); document.getElementById('delete-form-{{$task->id}}').submit();" style="color: red;">Delete</a> --}}
-
-                                        <form id="delete-form-{{ $item->id }}" action="{{ url('/delete-rec/' . $item->id) }}" method="POST" style="display:none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        <!------------------------------------------------- DELETE BUTTON -  END --------------------------------------------------->
-
-
-                                      </div>
-                                    </div>
-                                </div>
+                                <div style="float:left; margin-right:10px">
+                                    <a href="{{ route('edit.form', $item->id) }}" role="button" style="float:lelft">
+                                        <x-icons.edit/>
+                                    </a>
+                                </div>                             
+                                <div style="float:left">
+                                    <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
+                                        <x-icons.delete/>
+                                    </a>
+                                </div>                
                             </td>
                         </tr>
                         @endforeach

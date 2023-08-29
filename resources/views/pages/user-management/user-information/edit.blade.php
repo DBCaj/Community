@@ -28,13 +28,14 @@
 <br><br>
     
 <form action="{{ route('edit.auth') }}" method="POST" enctype="multipart/form-data">
+<!-- <form action="{{ route('edit.auth') }}" method="POST"> -->
 @csrf
 
 <input type="hidden" name="useracc" value="{{ $acc->id }}">
 
-@if(Session::get('success'))
+@if(session('success'))
     <div style="background-color:lightgreen; padding:9px; border-radius:4px; margin-bottom: 10px;">
-        {{ Session::get('success') }}
+        {{ session('success') }}
     </div>
 @endif
 
@@ -50,9 +51,8 @@
                 <div class="text-center">
                     <div style="position: relative; display: inline-block;">
                         <img id="previewImage" src="{{ $acc->image_location == true ? asset($acc->image_location) : asset('assets/placeholder/blank-person.png') }}" class="w-32 h-32 rounded-full mb-4" alt="blank-person">
-
                         <input type="file" id="imageUpload" name="image" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0; cursor: pointer;">
-                        <label for="imageUpload" class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">Upload Image</label>
+                        <label for="image" class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">Upload Image</label>
                     </div>
                 </div>
 
@@ -60,10 +60,11 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
+                    required 
+                    autofocus
                     value="{{ $acc->email }}"
                     type="email" 
                     name="email" 
-                    autofocus
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('email')
@@ -82,7 +83,7 @@
                     @error('password')
                         <span style="color:red">{{ $message }}</span>
                     @enderror
-                    <label for="new_password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">New Password</label>
+                    <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">New Password</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
                 </div>
 
@@ -112,6 +113,7 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
+                    required 
                     value="{{ $acc->firstname }}"
                     type="text" 
                     name="firstname" 
@@ -141,6 +143,7 @@
 
                 <div class="relative z-0 w-full mb-5 text-sm">
                     <input 
+                    required 
                     value="{{ $acc->lastname }}"
                     type="text" 
                     name="lastname" 
@@ -158,8 +161,8 @@
                 <div class="flex justify-center flex-row gap-4">
                 <div class="relative z-0 w-32 mb-5">
                         <select 
+                        required 
                         name="birth_month" 
-                        onclick="this.setAttribute('value', this.value);" 
                         class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" 
                         >
                             <option value="{{ $acc->birth_month }}" selected hidden>
@@ -202,15 +205,14 @@
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                        <label for="select" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Birth Month</label>
+                        <label for="birth_month" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Birth Month</label>
                         <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
                     </div>
 
                     <div class="relative z-0 w-32 mb-5">
                         <select 
-                        value=" "
+                        required 
                         name="birth_day" 
-                        onclick="this.setAttribute('value', this.value);" 
                         class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" 
                         >
                         <option value="{{ $acc->birth_day }}" selected disabled hidden>
@@ -248,12 +250,15 @@
                         <option value="30">30</option>
                         <option value="31">31</option>
                         </select>
-                        <label for="select" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Birth Day</label>
+                        <label for="birth_day" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Birth Day</label>
                         <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
                     </div>
 
                     <div class="relative z-0 w-32 mb-5">
-                        <select value=" " name="birth_year" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                        <select 
+                        required 
+                        name="birth_year" 
+                        class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
                         <option value="{{ $acc->birth_year }}" selected disabled hidden>{{ $acc->birth_year }}</option>
                         <?php
                             $currentYear = date('Y');
@@ -263,7 +268,7 @@
                             }
                         ?>
                         </select>
-                        <label for="select" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Birth Year</label>
+                        <label for="birth_year" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Birth Year</label>
                         <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
                     </div>
 
@@ -271,6 +276,7 @@
                         <input 
                         type="text" 
                         name="age" 
+                        value="{{ $acc->age }}"
                         />
                         <label for="age" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Age</label>
                         <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -279,16 +285,19 @@
 
                 <div class="flex justify-center flex-row gap-4 flex-1">
                     <div class="relative z-0 w-full mb-5">
-                        <select name="gender" value=" " onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
-                        <option value="{{ $acc->gender }}" selected disabled hidden>
-                            @if($acc->gender == "1")
-                                Male
-                            @else
-                                Female
-                            @endif
-                        </option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                        <select 
+                        required 
+                        name="gender" 
+                        class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                            <option value="{{ $acc->gender }}" selected disabled hidden>
+                                @if($acc->gender == "1")
+                                    Male
+                                @else
+                                    Female
+                                @endif
+                            </option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
                         </select>
                         <label for="gender" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Gender</label>
                         <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
@@ -298,7 +307,10 @@
 
             <div class="flex justify-center flex-row gap-4 flex-1">
                 <div class="relative z-0 w-full mb-5">
-                    <select name="department" value=" " onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                    <select 
+                    required 
+                    name="department"
+                    class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
                     <option value="{{ $acc->department }}" selected disabled hidden>{{ $acc->department }}</option>
                     <option value="IT">IT</option>
                     <option value="SA">SA</option>
@@ -309,23 +321,39 @@
                 </div>
 
                 <div class="relative z-0 w-full mb-5">
-                    <select name="role" value=" " onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
-                    <option value="{{ $acc->role }}" selected disabled hidden>
-                        @if($acc->role == "user" || "User")
-                            User
-                        @else
-                            Admin
-                        @endif
-                    </option>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <select 
+                    required 
+                    name="role" 
+                    class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                        <option value="{{ $acc->role }}" selected disabled hidden>
+                            @if($acc->role == "user" || "User")
+                                User
+                            @else
+                                Admin
+                            @endif
+                        </option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
                     </select>
-                    <label for="department" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Role</label>
+                    <label for="role" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Role</label>
+                    <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
+                </div>
+
+                <div class="relative z-0 w-full mb-5">
+                    <select 
+                    name="status" 
+                    class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                        <option value="{{ $acc->status }}" selected disabled hidden>{{ $acc->status == 1 ? 'Active' : 'Inactive' }}</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                    <label for="status" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Status</label>
                     <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
                 </div>
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
+                    required 
                     value="{{ $acc->contact }}"
                     type="text" 
                     name="contact"  
@@ -350,6 +378,7 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input
+                    required 
                     value="{{ $acc->house_lot_block_street }}"
                     type="text" 
                     name="house_lot_block_street" 
@@ -368,15 +397,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <select 
-                    value=" "
+                    required 
                     name="country" 
-                    onclick="this.setAttribute('value', this.value);"
                     class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" 
                     >
-                    <option value="PH" selected disabled hidden>
-                        Philippines
-                    </option>
-                    <option value="PH">Philippines</option>
+                        <option value="PH" selected disabled hidden>
+                            Philippines
+                        </option>
+                        <option value="PH">Philippines</option>
                     </select>
                     <label for="country" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Country</label>
                     <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
@@ -384,6 +412,7 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
+                    required 
                     value="{{ $acc->province }}"
                     type="text" 
                     name="province" 
@@ -398,6 +427,7 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
+                    required 
                     value="{{ $acc->municipality }}"
                     type="text" 
                     name="municipality" 
@@ -412,6 +442,7 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
+                    required 
                     value="{{ $acc->barangay }}"
                     type="text" 
                     name="barangay" 
@@ -428,6 +459,7 @@
             <div class="flex flex-row gap-4 flex-1">
                 <div class="relative z-0 w-32 mb-5">
                     <input 
+                    required 
                     value="{{ $acc->zip_code }}"
                     type="number" 
                     name="zip_code" 
