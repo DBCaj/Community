@@ -105,23 +105,11 @@ class UserController extends Controller
 
     public function departmentsPage() {
         $data = Department::all();
-        $checkDeptStatus = User::all();
 
-        // Get the list of departments
-        $departments = $checkDeptStatus->pluck('department')->unique();
-
-        // Initialize an array to store department statuses
-        $departmentStatuses = [];
-
-        foreach ($departments as $department) {
-            // Count the number of active users in each department
-            $activeUsersCount = User::where('department', $department)->where('status', 'active')->count();
-
-            // Store the department name and status in the array
-            $departmentStatuses[$department] = $activeUsersCount > 0 ? 'Active' : 'Inactive';
-        }
-
-        return view('pages.user-management.department.index', compact('data', 'departmentStatuses'));
+        return view('pages.user-management.department.index',
+        [
+            'data' => $data
+        ]);
     }
 
 

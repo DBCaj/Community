@@ -1,16 +1,26 @@
-* Add save image in add user under User Management.
-
-
-* add default text like "-select-" for option tags for register and add user.
-
-
-* modify this line in User model later... "            $table->integer('age')->nullable();".
-
-
-* add scheduler functionality for users that has been inactive for 30 days.
-
+* user-management/department. Recreate Department Page.
+	- an error occurs when you add new department name.
+	- implement the actions tab (edit, delete) functionality.
+	- implement the (total, active, inactive) functionality.
 
 * Limit features for user accounts like User Management.
 
+* 'user-management/user-information/create'
+	> Update age - add to those who don't have
 
-* Add accessor function for name and role.
+* Fix the label alignment in form under register and add user.
+
+* Modify databales show entries to 5 pagination only.
+
+* Fix 'gender' overlapping when in mobile screens under register, add, edit.
+
+
+--------------------------------------------------------------------------------
+
+COMMITS:
+
+- Improved login page design.
+
+- Added Remember Me Functionality on Login Page.
+
+- Added Roles Table Page under User Management.

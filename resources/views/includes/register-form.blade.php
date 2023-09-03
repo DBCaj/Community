@@ -229,10 +229,11 @@
                         <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
                     </div>
 
-                    <div class="relative z-0 w-32 mb-5" style="display: none">
+                    <div class="relative z-0 w-32 mb-5" style="display:none">
                         <input 
-                        type="text" 
+                        type="hidden" 
                         name="age" 
+                        id="age"
                         />
                         <label for="age" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Age</label>
                         <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -419,6 +420,37 @@
         const selectedImage = event.target.files[0];
         if (selectedImage) {
             previewImage.src = URL.createObjectURL(selectedImage);
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the select elements
+        const birthMonthSelect = document.querySelector('[name="birth_month"]');
+        const birthDaySelect = document.querySelector('[name="birth_day"]');
+        const birthYearSelect = document.querySelector('[name="birth_year"]');
+        const ageInput = document.getElementById('age');
+
+        // Add event listener to all select elements
+        [birthMonthSelect, birthDaySelect, birthYearSelect].forEach(select => {
+            select.addEventListener("change", calculateAge);
+        });
+
+        function calculateAge() {
+            const birthMonth = birthMonthSelect.value;
+            const birthDay = birthDaySelect.value;
+            const birthYear = birthYearSelect.value;
+
+            // Check if all values are selected
+            if (birthMonth && birthDay && birthYear) {
+                const birthDate = new Date(`${birthYear}-${birthMonth}-${birthDay}`);
+                const currentDate = new Date();
+                const age = currentDate.getFullYear() - birthDate.getFullYear();
+
+                // Update the age input field with the calculated age
+                ageInput.value = age;
+            }
         }
     });
 </script>

@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "livewire/livewire": "^2.12",
+        "nesbot/carbon": "^2.69",
         "propaganistas/laravel-phone": "^4.4",
         "spatie/laravel-backup": "^7.8"
     },

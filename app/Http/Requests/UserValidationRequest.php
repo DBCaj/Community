@@ -34,6 +34,7 @@ class UserValidationRequest extends FormRequest
             'birth_year' => 'required',
             'gender' => 'required',
             'department' => 'required',
+            'role' => 'required',
             'contact' => 'required | phone:PH',
             'house_lot_block_street' => 'required',
             'country' => 'required',

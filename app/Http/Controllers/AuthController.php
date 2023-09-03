@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Http\Requests\UserValidationRequest;
 use Illuminate\Http\Request;
@@ -23,52 +24,78 @@ class AuthController extends Controller
 
   
     public function loginAuth(Request $req)
-    {
-      $credentials = $req->only('email', 'password');
-      
-      if(Auth::attempt($credentials))
-      {
-        $req->session()->put('user', $req->input('email'));
-        return redirect()->intended('/dashboard');
-      }
-      else {
-        return back()
-          ->withErrors([
-            'invalid' => 'Invalid Credentials',
-            ])
-          ->withInput();
-      }
-    }
-    
-    
-    public function logout()
-    {
-      if(session()->has('user'))
-      {
-        session()->pull('user');
-      }
-      return redirect()->route('login.form');
-    }
-    
-    
-    public function dashboard()
-    {
-      $users = User::all();
-      return view('pages.dashboard', compact('users'));
-    }
-    
-    
-    // public function switchAccount(Request $req)
-    // {
-    //   if(Auth::user()->isAdmin())
-    //   {
-    //     $user = User::findOrFail($req->input('userId'));
-    //     Auth::login($user);
-    //     return redirect()->intended('/dashboard');
-    //   }
-    //   abort(403, 'UNAUTHORIZED ACTION');
-    // }
+    { 
+      try {
 
+
+        //used for Auth::guard only  
+        $credentials = [
+          'email' => $req->email,
+          'password' => $req->password,
+          'status' => 1,
+        ];  
+        
+        $remember = $req->has('remember');
+
+
+        if(Auth::guard('web')->viaRemember())
+        {
+          //updates login_activity column
+          $user = Auth::user();
+          $user->last_activity = Carbon::now();
+          $user->save();
+          
+          return redirect()->intended('/dashboard');
+        }
+        if(Auth::guard('web')->attempt($credentials, $remember))
+        {
+          //updates login_activity column
+          $user = Auth::user();
+          $user->last_activity = Carbon::now();
+          $user->save();
+          
+          $req->session()->put('user', $req->input('email'));
+          return redirect()->intended('/dashboard');
+        }
+        elseif(Auth::attempt(['email' => $req->email, 'password' => $req->password, 'status' => 0]))
+        {
+          return back()
+            ->withErrors([
+              'invalid' => 'Account Inactive. Please contact customer support.',
+              ])
+            ->withInput();
+        }
+        else {
+          return back()
+            ->withErrors([
+              'invalid' => 'Invalid Credentials',
+              ])
+            ->withInput();
+        }
+
+
+      } catch (\Exception $exception) {
+          dd($exception->getMessage());
+      } 
+    }
+    
+    
+  public function logout()
+  {
+    if(session()->has('user'))
+    {
+      session()->pull('user');
+    }
+    return redirect()->route('login.form');
+  }
+  
+  
+  public function dashboard()
+  {
+    $users = User::all();
+    return view('pages.dashboard', compact('users'));
+  }
+    
 
   public function registerAuth(Request $req)
   {
@@ -100,7 +127,7 @@ class AuthController extends Controller
       'birth_year' => $req->birth_year,
       'age' => $req->age,
       'gender' => $req->gender,
-      'role' => 'user',
+      'role' => $req->role,
       'department' => $req->department,
       'contact' => $req->contact,
       'house_lot_block_street' => $req->house_lot_block_street,

@@ -12,6 +12,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    protected $table ='users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -66,5 +68,23 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin() {
         return $this->role == 'admin' || 'Admin';
+    }
+
+
+    public function getRoleAttribute($value)
+    {
+        return ucFirst($value);
+    }
+
+
+    public function getFirstnameAttribute($value)
+    {
+        return ucFirst($value);
+    }
+
+
+    public function getDepartment()
+    {
+        return $this->hasMany(Department::class, 'user_id');
     }
 }

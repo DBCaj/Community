@@ -29,9 +29,15 @@
         @include('components.alertbar')
 
         <div style="backgound-color: red;" class="flex justify-between lg:items-center flex-col lg:flex-row mb-4">
-            <div class="flex justify-start mb-4 lg:mb-0">
-                <a href="{{route('user-information-create')}}" class="px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg flex items-center"><span><svg class="w-4 h-4 text-white mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg></span> Add User</a>
-            </div>
+            @if(Auth::user()->role == 'admin' || Auth::user()->role == 'Admin')
+                <div class="flex justify-start mb-4 lg:mb-0">
+                    <a href="{{route('user-information-create')}}" class="px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg flex items-center"><span><svg class="w-4 h-4 text-white mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg></span>Add User</a>
+                </div>
+            @else
+                <div class="flex justify-start mb-4 lg:mb-0">
+                    <a href="#" class="px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg flex items-center"><span><svg class="w-4 h-4 text-white mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg></span>Add User (available for admins only)</a>
+                </div>        
+            @endif
 
             {{--COUNT--}}
             <div class="flex gap-4">
@@ -151,16 +157,22 @@
                                 </div>
                             </td> --}}
                             <td class="p-3 font-normal text-sm">
-                                <div style="float:left; margin-right:10px">
-                                    <a href="{{ route('edit.form', $item->id) }}" role="button" style="float:lelft">
-                                        <x-icons.edit/>
-                                    </a>
-                                </div>                             
-                                <div style="float:left">
-                                    <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
-                                        <x-icons.delete/>
-                                    </a>
-                                </div>                
+                                @if(Auth::user()->role == 'user' || Auth::user()->role == 'User')
+                                    <div style="color:red">
+                                        Available for admins only
+                                    </div>                
+                                @else
+                                    <div style="float:left; margin-right:10px">
+                                        <a href="{{ route('edit.form', $item->id) }}" role="button" style="float:lelft">
+                                            <x-icons.edit/>
+                                        </a>
+                                    </div>                             
+                                    <div style="float:left">
+                                        <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
+                                            <x-icons.delete/>
+                                        </a>
+                                    </div>        
+                                @endif      
                             </td>
                         </tr>
                         @endforeach

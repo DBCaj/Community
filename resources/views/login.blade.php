@@ -28,34 +28,34 @@
                         <form action="{{ route('login.auth') }}" method="POST">
                             @csrf
 
-                            <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Email</span>
-                                <input
-                                    required
-                                    autofocus
-                                    type="email"
-                                    name="email"
-                                    value="{{ old('email') }}"
+                            <div>
+                                <label for="email" class="block text-sm text-gray-700 dark:text-gray-400">Email</label>
+                                <input type="email" name="email" value="{{ old('email') }}" required
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-[#016e34] focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                    placeholder="cassandra@gmail.com" />
-                            </label>
-                            <label class="block mt-4 text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Password</span>
-                                <input
-                                    required
-                                    name="password"
-                                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-[#016e34] focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                    placeholder="***************" 
-                                    type="password" />
-                            </label>
+                                    placeholder="cassandra@gmail.com">
+                            </div>
 
-                            <center>
+                            <div>
+                                <label for="password" class="block mt-4 text-sm text-gray-700 dark:text-gray-400">Password</label>
+                                <input type="password" name="password" required
+                                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-[#016e34] focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    placeholder="***************">
+                            </div>
+
                             @error('invalid')
-                            <span role="alert" style="color: #f00">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                            <div role="alert" class="text-red-500 text-sm mt-2">
+                                {{ $message }}
+                            </div>
                             @enderror
-                            </center>
+
+                            <br>
+
+                            <div class="mt-4">
+                                <label for="remember" class="flex items-center">
+                                    <input type="checkbox" name="remember" class="mr-2">
+                                    <span class="text-sm text-gray-700 dark:text-gray-400">Remember Me</span>
+                                </label>
+                            </div>
                             
                             <button
                             class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#016e34] border border-transparent rounded-lg active:bg-purple-600 hover:bg-[#016e34] focus:outline-none focus:shadow-outline-purple"

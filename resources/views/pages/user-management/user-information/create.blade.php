@@ -23,8 +23,15 @@
 
 <br>
 
-<form action="{{ url('/add-auth') }}" method="POST">
+<form action="{{ route('register.auth') }}" method="POST" enctype="multipart/form-data">
 @csrf
+
+@if(Session::get('success'))
+    <div style="background-color:lightgreen; padding:9px; border-radius:4px; margin-bottom: 10px;">
+        {{ Session::get('success') }}
+    </div>
+@endif
+
 <div class="flex gap-4 mb-2">
     <div>
         <div class="bg-white shadow-md py-3 px-5 rounded-md mb-4 w-80">
@@ -34,21 +41,27 @@
     
             <div class="flex justify-center flex-col">
 
-                <img src="{{asset('assets/placeholder/blank-person.png')}}" class="w-32 h-32 rounded-full flex justify-center items-center mb-4 mx-auto" alt="blank-person">
+                <div class="text-center">
+                    <div style="position: relative; display: inline-block;">
+                        <img id="previewImage" src="{{ asset('assets/placeholder/blank-person.png') }}" class="w-32 h-32 rounded-full mb-4" alt="blank-person">
+                        <input type="file" id="imageUpload" name="image" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0; cursor: pointer;">
+                        <label for="imageUpload" class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">Upload Image</label>
+                    </div>
+                </div>
+
+                <br><br>
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="email"
                     value="{{ old('email') }}"
                     type="email" 
-                    name="email_address" 
-                    placeholder=" " 
+                    name="email" 
                     required 
                     autofocus
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('email')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="email_address" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Email Address</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -56,15 +69,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="password"
+                    value="{{ old('password') }}"
                     type="password" 
                     name="password" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('password')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Password</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -72,15 +84,13 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="password_confirmation"
                     type="password" 
                     name="password_confirmation" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('password_confirmation')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="password_confirmation" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Confirm Password</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -99,16 +109,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="firstname"
                     value="{{ old('firstname') }}"
                     type="text" 
                     name="firstname" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('firstname')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="firstname" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">First name</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -124,7 +132,7 @@
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('middlename')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="middlename" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Middle Name (Optional)</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -132,16 +140,14 @@
 
                 <div class="relative z-0 w-full mb-5 text-sm">
                     <input 
-                    id="lastname"
                     value="{{ old('lastname') }}"
                     type="text" 
                     name="lastname" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('lastname')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="lastname" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Last Name</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -152,6 +158,7 @@
                 <div class="flex justify-center flex-row gap-4">
                 <div class="relative z-0 w-32 mb-5">
                         <select 
+                        value=""
                         required
                         name="birth_month" 
                         onclick="this.setAttribute('value', this.value);" 
@@ -177,6 +184,7 @@
 
                     <div class="relative z-0 w-32 mb-5">
                         <select 
+                        value=""
                         required
                         name="birth_day" 
                         onclick="this.setAttribute('value', this.value);" 
@@ -220,11 +228,11 @@
                     </div>
 
                     <div class="relative z-0 w-32 mb-5">
-                        <select name="birth_year" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                        <select value="" name="birth_year" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
                         <option value="" selected disabled hidden></option>
                         <?php
                             $currentYear = date('Y');
-                            $startYear = $currentYear - 100; // Adjust the range as needed
+                            $startYear = $currentYear - 100; 
                             for ($year = $startYear; $year <= $currentYear; $year++) {
                                 echo "<option value=\"$year\">$year</option>";
                             }
@@ -234,11 +242,11 @@
                         <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
                     </div>
 
-                    <div class="relative z-0 w-32 mb-5" style="display: none">
+                    <div class="relative z-0 w-32 mb-5" style="display:none">
                         <input 
-                        type="text" 
+                        type="hidden" 
                         name="age" 
-                        placeholder=" "  
+                        id="age"
                         />
                         <label for="age" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Age</label>
                         <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -260,16 +268,6 @@
 
             <div class="flex justify-center flex-row gap-4 flex-1">
                 <div class="relative z-0 w-full mb-5">
-                    <select required name="role" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
-                    <option value="" selected disabled hidden></option>
-                    <option value="User">User</option>
-                    <option value="Admin">Admin</option>
-                    </select>
-                    <label for="role" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Role</label>
-                    <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
-                </div>
-
-                <div class="relative z-0 w-full mb-5">
                     <select required name="department" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
                     <option value="" selected disabled hidden></option>
                     <option value="IT">IT</option>
@@ -281,17 +279,25 @@
                 </div>
 
                 <div class="relative z-0 w-full mb-5">
+                    <select required name="role" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
+                    <option value="" selected disabled hidden></option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                    </select>
+                    <label for="department" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Role</label>
+                    <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
+                </div>
+
+                <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="contact"
                     value="{{ old('contact') }}"
                     type="text" 
                     name="contact" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('contact')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">Please enter a valid Philippine phone format. e.g., 09476245306 or +639476245306 or +63 9476245306</span>
                     @enderror
                     <label for="contact" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Contact Number</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -309,16 +315,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input
-                    id="house_lot_block_street"
                     value="{{ old('house_lot_block_street') }}"
                     type="text" 
                     name="house_lot_block_street" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('house_lot_block_street')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="house_lot_block_street" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">House / Lot / Block / Street</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -332,7 +336,6 @@
                     <select 
                     required
                     name="country" 
-                    value="" 
                     onclick="this.setAttribute('value', this.value);"
                     class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" 
                     >
@@ -345,16 +348,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="province"
                     value="{{ old('province') }}"
                     type="text" 
                     name="province" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('province')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="province" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Province</label>
                     <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
@@ -362,16 +363,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="municipality"
                     value="{{ old('municipality') }}"
                     type="text" 
                     name="municipality" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('municipality')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="municipality" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Municipality</label>
                     <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
@@ -379,16 +378,14 @@
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
-                    id="barangay"
                     value="{{ old('barangay') }}"
                     type="text" 
                     name="barangay" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('barangay')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="barangay" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Barangay</label>
                     <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>
@@ -398,16 +395,14 @@
             <div class="flex flex-row gap-4 flex-1">
                 <div class="relative z-0 w-32 mb-5">
                     <input 
-                    id="zip_code"
                     value="{{ old('zip_code') }}"
                     type="number" 
                     name="zip_code" 
-                    placeholder=" " 
                     required 
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
                     @error('zip_code')
-                    <span>{{ $message }}</span>
+                    <span style="color:red">{{ $message }}</span>
                     @enderror
                     <label for="zip_code" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Zip Code</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
@@ -437,6 +432,47 @@
     alert("{{ session('store-success')}}");
 </script>
 @endif
+
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function(event) {
+        const previewImage = document.getElementById('previewImage');
+        const selectedImage = event.target.files[0];
+        if (selectedImage) {
+            previewImage.src = URL.createObjectURL(selectedImage);
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the select elements
+        const birthMonthSelect = document.querySelector('[name="birth_month"]');
+        const birthDaySelect = document.querySelector('[name="birth_day"]');
+        const birthYearSelect = document.querySelector('[name="birth_year"]');
+        const ageInput = document.getElementById('age');
+
+        // Add event listener to all select elements
+        [birthMonthSelect, birthDaySelect, birthYearSelect].forEach(select => {
+            select.addEventListener("change", calculateAge);
+        });
+
+        function calculateAge() {
+            const birthMonth = birthMonthSelect.value;
+            const birthDay = birthDaySelect.value;
+            const birthYear = birthYearSelect.value;
+
+            // Check if all values are selected
+            if (birthMonth && birthDay && birthYear) {
+                const birthDate = new Date(`${birthYear}-${birthMonth}-${birthDay}`);
+                const currentDate = new Date();
+                const age = currentDate.getFullYear() - birthDate.getFullYear();
+
+                // Update the age input field with the calculated age
+                ageInput.value = age;
+            }
+        }
+    });
+</script>
 
 @endsection
 

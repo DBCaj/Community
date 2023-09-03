@@ -29,8 +29,7 @@ Route::middleware('custom_auth')->group(function() {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
     //user-management - Show Records
-    Route::view('/user-management/user-information', 'pages/user-management/user-information/index')->name('user-information');
-    Route::get('/show-rec', [UserController::class, 'showRecords']);
+    Route::get('/show-rec', [UserController::class, 'showRecords'])->name('user-information');;
 
     //user-management - Delete Records
     // Route::delete('/delete-rec/{useracc}', [UserController::class, 'destroy'])->name('rec.destroy');
@@ -46,8 +45,15 @@ Route::middleware('custom_auth')->group(function() {
     // Create Account Auth
     Route::post('/add-auth', [UserController::class, 'userAccount'])->name('add.userAccount');
 
-    Route::view('/user-management/roles', 'pages/user-management/roles/index')->name('roles');
-    Route::view('/user-management/department', 'pages/user-management/department/index')->name('department');
+    //roles
+    Route::get('/user-management/roles', [UserController::class, 'rolesPage'])->name('roles');
+    // Route::view('/user-management/roles', 'pages.user-management.roles.index')->name('roles');
+
+    //department
+    Route::get('/user-management/department', [UserController::class, 'departmentsPage'])->name('department');
+    //store department
+    Route::post('/department-auth', [UserController::class, 'saveDepartment'])->name('department.save');
+
     Route::view('/user-management/monitoring', 'pages/user-management/monitoring/index')->name('user-management-monitoring');
 
     //user-management
