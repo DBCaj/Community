@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('birth_month');
             $table->string('birth_day');
             $table->string('birth_year');
-            $table->integer('age')->nullable(); //must be nullable for now, in order to store user under user-management/user-information/create
+            $table->integer('age')->nullable();
             $table->string('gender');
             $table->string('role')->default('user');
             $table->string('department');

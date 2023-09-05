@@ -16,4 +16,12 @@ class Department extends Model
         'id', 
         'department',
     ];
+    
+    
+    /////// One to One Relation - Start ///////
+    public function user()
+    {
+      return $this->hasOne(User::class, 'department_id', 'id');
+    }
+    /////// One to One Relation - End ///////
 }

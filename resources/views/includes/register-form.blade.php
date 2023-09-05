@@ -257,9 +257,11 @@
                 <div class="relative z-0 w-full mb-5">
                     <select required name="department" value="" onclick="this.setAttribute('value', this.value);" class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
                     <option value="" selected disabled hidden></option>
-                    <option value="IT">IT</option>
-                    <option value="SA">SA</option>
-                    <option value="Networking">Networking</option>
+                    
+                    @foreach($departments as $department)
+                      <option value="{{ $department->department }}">{{ $department->department }}</option>
+                    @endforeach
+                    
                     </select>
                     <label for="department" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Department</label>
                     <span class="text-sm text-red-600 hidden" id="error">Option has to be selected</span>

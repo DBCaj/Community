@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Department;
 use App\Http\Requests\UserValidationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,5 +147,12 @@ class AuthController extends Controller
     $req->session()->flash('success', 'User added successfully');
     
     return redirect()->back();
+  }
+  
+  
+  public function create()
+  {
+    $departments = Department::all();
+    return view('register', compact('departments'));
   }
 }

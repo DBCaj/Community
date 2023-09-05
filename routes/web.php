@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DepartmentController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryBuilderController;
 
 
@@ -16,7 +17,7 @@ Route::controller(AuthController::class)->group(function() {
     Route::get('/', 'login')->name('login.form');
     Route::post('/login-auth', 'loginAuth')->name('login.auth');
     Route::get('/logout', 'logout')->name('logout');
-    Route::view('/register', 'register')->name('register.form');
+    Route::get('/register', 'create')->name('register.form');
     Route::post('/register-auth', 'registerAuth')->name('register.auth');
 });
 ////////////////////////// login, logout - end //////////////////////////
@@ -31,26 +32,33 @@ Route::middleware('custom_auth')->group(function() {
     //user-management - Show Records
     Route::get('/show-rec', [UserController::class, 'showRecords'])->name('user-information');;
 
-    //user-management - Delete Records
-    // Route::delete('/delete-rec/{useracc}', [UserController::class, 'destroy'])->name('rec.destroy');
+    //user-management - Delete User Records
     Route::get('/delete-rec/{useracc}', [UserController::class, 'destroy'])->name('rec.destroy');
+    
+    //user-management - Delete Department Records
+    Route::get('/delete-dept-rec/{dept}', [DepartmentController::class, 'destroy'])->name('department_rec.destroy');
 
-    //user-management - Show (Edit Record Table)
+    //user-management - Edit User Record 
     Route::get('/edit/{useracc}', [UserController::class, 'edit'])->name('edit.form');
     Route::post('/edit-auth', [UserController::class, 'editAuth'])->name('edit.auth');
+    
+    //user-management - Edit Department Record 
+    Route::post('/edit-department-auth/{dept}', [DepartmentController::class, 'editDepartmentAuth'])->name('edit_department.auth');
 
     ///user-management - create records
-    Route::view('/user-management/user-information/create', 'pages/user-management/user-information/create')->name('user-information-create');
+    Route::get('/user-management/user-information/create', [UserController::class,'addUserForm'])->name('user-information-create');
+    // Route::view('/user-management/user-information/create', 'pages.user-management.user-information.create')->name('user-information-create');
 
     // Create Account Auth
     Route::post('/add-auth', [UserController::class, 'userAccount'])->name('add.userAccount');
 
     //roles
     Route::get('/user-management/roles', [UserController::class, 'rolesPage'])->name('roles');
-    // Route::view('/user-management/roles', 'pages.user-management.roles.index')->name('roles');
 
     //department
-    Route::get('/user-management/department', [UserController::class, 'departmentsPage'])->name('department');
+    Route::get('pages/user-management/department', [UserController::class, 'departmentsPage'])->name('department');
+    // Route::get('/user-management/department', [UserController::class, 'departmentsPage'])->name('department');
+    
     //store department
     Route::post('/department-auth', [UserController::class, 'saveDepartment'])->name('department.save');
 

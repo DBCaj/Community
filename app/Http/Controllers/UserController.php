@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Storage;
 
 
-
 class UserController extends Controller
 {
     public function userAccount(Request $req)
     {
-        // Form Regex Validation
         $validator = Validator::make($req->all(), [
             'email_address' => 'required | email',
             'password' => 'nullable | confirmed',
@@ -39,14 +38,12 @@ class UserController extends Controller
             'image' => 'nullable | mimes:jpg,png,jpeg',
         ]);
 
-        //form condition validation
         if ($validator->fails()) {
             return redirect('/user-management/user-information/create')
             ->withErrors($validator)
             ->withInput();
         }
 
-        //store records
         $acc = new User;
         $acc->email_address=$req->email_address;
         $acc->password=bcrypt($req->password);
@@ -74,7 +71,7 @@ class UserController extends Controller
 
         return redirect()->back();
     }
-
+    
 
     public function showRecords() {
         $data = User::all();
@@ -104,24 +101,36 @@ class UserController extends Controller
 
 
     public function departmentsPage() {
-        $data = Department::all();
-        $checkDeptStatus = User::all();
-
-        // Get the list of departments
-        $departments = $checkDeptStatus->pluck('department')->unique();
-
-        // Initialize an array to store department statuses
-        $departmentStatuses = [];
-
-        foreach ($departments as $department) {
-            // Count the number of active users in each department
-            $activeUsersCount = User::where('department', $department)->where('status', 'active')->count();
-
-            // Store the department name and status in the array
-            $departmentStatuses[$department] = $activeUsersCount > 0 ? 'Active' : 'Inactive';
+        $countData = Department::whereNull('deleted_at')->count();
+      
+        $departments = Department::all();
+        
+        $activeDepartmentsCount = 0;
+        $inactiveDepartmentsCount = 0;
+        
+        foreach($departments as $department)
+        {
+          //checks if department_id also exist in departments table
+          //checks user status active count. 
+          $activeUserCount = User::where('department_id', $department->id)
+            ->where('status', '1')
+            ->count();
+            
+          $inactiveUserCount = User::where('department_id', $department->id)
+            ->where('status', '0')
+            ->count();
+           
+          $department->status = $activeUserCount > 0 ? 'Active' : 'Inactive';
+          
+          // Update the counts of active and inactive departments
+          if ($department->status === 'Active') {
+              $activeDepartmentsCount++;
+          } else {
+              $inactiveDepartmentsCount++;
+          }
         }
-
-        return view('pages.user-management.department.index', compact('data', 'departmentStatuses'));
+        
+        return view('pages.user-management.department.index', compact('departments', 'countData', 'activeDepartmentsCount', 'inactiveDepartmentsCount'));
     }
 
 
@@ -136,7 +145,8 @@ class UserController extends Controller
     public function edit(string $useracc)
     {
         $acc = User::find($useracc);
-        return view('pages.user-management.user-information.edit', compact('acc'));
+        $departments = Department::all();
+        return view('pages.user-management.user-information.edit', compact('acc', 'departments'));
     }
 
 
@@ -220,13 +230,25 @@ class UserController extends Controller
         ->withInput();
         }
 
-        Department::create([
-            'department' => $req->input('department'),
-            'status' => 1,
-        ]);
-
-        $req->session()->flash('success', 'Department added successfully');
-
-        return redirect()->back();
+        if(Department::where('department', Str::of($req->department)->upper())->first())
+        {
+          $req->session()->flash('exist', 'Department already exist. Please try another one');
+          
+          return redirect()->back();
+        }
+        else {
+          Department::create([
+            'department' => Str::of($req->department)->upper(),
+            ]);
+          $req->session()->flash('success', 'Department added successfully');
+          return redirect()->back();
+        }
+    }
+    
+    
+    public function addUserForm()
+    {
+      $departments = Department::all();
+      return view('pages.user-management.user-information.create', compact('departments'));
     }
 }

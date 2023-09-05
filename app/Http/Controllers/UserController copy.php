@@ -74,6 +74,37 @@ class UserController extends Controller
 
         return redirect()->back();
     }
+    
+    
+    public function departmentsPage() {
+        $departments = Department::all();
+        $activeDepartmentsCount = 0;
+        $inactiveDepartmentsCount = 0;
+        
+        foreach($departments as $department)
+        {
+          //checks if department_id also exist in departments table
+          //checks user status active count. 
+          $activeUserCount = User::where('department_id', $department->id)
+            ->where('status', '1')
+            ->count();
+            
+          $inactiveUserCount = User::where('department_id', $department->id)
+            ->where('status', '0')
+            ->count();
+           
+          $department->status = $activeUserCount > 0 ? 'Active' : 'Inactive';
+          
+          // Update the counts of active and inactive departments
+          if ($department->status === 'Active') {
+              $activeDepartmentsCount++;
+          } else {
+              $inactiveDepartmentsCount++;
+          }
+        }
+        return view('pages.user-management.department.index', compact('departments', 'activeDepartmentsCount', 'inactiveDepartmentsCount'));
+    }
+
 
 
     public function showRecords() {

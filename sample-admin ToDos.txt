@@ -1,7 +1,15 @@
 * user-management/department. Recreate Department Page.
-	- an error occurs when you add new department name.
-	- implement the actions tab (edit, delete) functionality.
-	- implement the (total, active, inactive) functionality.
+	- limit features for role user.
+	- Make a component for two modals (Edit, Delete) to make the code cleanier.
+	- modal update button confirmation not working.
+	
+* Update dependencies (package.json, I modified this because I got an email about security risk regarding the app) by running "npm install" on PC.
+	
+* Fix the table output in roles page (must be similar to department page).
+	
+* on User List Page. Use accessor to capitalize all the department's value.
+	
+* Fix the edit user page. If user has profile picture then don't render the upload image feature.
 
 * Limit features for user accounts like User Management.
 
@@ -14,13 +22,14 @@
 
 * Fix 'gender' overlapping when in mobile screens under register, add, edit.
 
+* Change tabs name, because it is named as 'solid'.
+
+* remove this unnecessary character ";" rendering in register page. Use PC with dev tool to pinpoint the line of code.
+
 
 --------------------------------------------------------------------------------
 
-COMMITS:
+COMMITS: 09-04-2023
 
-- Improved login page design.
-
-- Added Remember Me Functionality on Login Page.
-
-- Added Roles Table Page under User Management.
+- Modified DatabaseSeeder
+- Updates dependencies (package.json)

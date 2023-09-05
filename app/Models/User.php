@@ -33,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender',
         'role',
         'department',
+        'department_id',
         'contact',
         'house_lot_block_street',
         'country',
@@ -82,9 +83,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return ucFirst($value);
     }
 
-
-    public function getDepartment()
+    
+    /////// One to One Relation - Start ///////
+    public function departmentInfo()
     {
-        return $this->hasMany(Department::class, 'user_id');
+        return $this->belongsTo(Department::class, 'department_id', 'id');
     }
+    /////// One to One Relation - End ///////
 }

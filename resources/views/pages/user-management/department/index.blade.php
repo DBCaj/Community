@@ -32,31 +32,25 @@
                     </svg>
                 </div>
             </div>
-
-
             <form action="{{ route('department.save') }}" method="POST">
                 @csrf
                 <div class="font-bold text-[#313346] mb-2 uppercase">Department</div>
-
                 <input type="text" name="department" value="{{ old('department') }}" required autofocus class="p-2 border border-[#8a82a1] hover:border-[#4d7ebd] focus:border-[#4d7ebd] hover:text-[#4d7ebd] focus:text-[#4d7ebd] rounded-lg w-full outline-none mb-4">
-
                 @error('department')
                     <span style="color:red">{{ $message }}</span>
                 @enderror
-
                 <div class="text-right mt-8 mb-2">
                     <a href="" class="text-red-400 hover:text-white hover:bg-red-400 mr-4 font-medium px-4 py-2 rounded-lg border-red-400 border transition-all duration-300">Cancel</a>
-
                     <button type="submit" id="save-button">
                         <span  @click="openTab = 2" class="cursor-pointer px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg">Save</span>
                     </button>
                 </div>
             </form>
-
-
         </div>
         <!--/Dialog -->
     </div>
+    
+    
 
     @include('pages.user-management.partials.tabs')
 
@@ -78,7 +72,7 @@
                         Total
                     </div>
                     <div class="text-right font-bold text-lg">
-                        10
+                         {{ $countData }}
                     </div>
                 </span>
 
@@ -87,7 +81,7 @@
                         Active
                     </div>
                     <div class="text-right font-bold text-lg">
-                        10
+                        {{ $activeDepartmentsCount }}
                     </div>
                 </span>
 
@@ -96,7 +90,7 @@
                         Inactive
                     </div>
                     <div class="text-right font-bold text-lg">
-                        10
+                        {{ $inactiveDepartmentsCount }}
                     </div>
                 </span>
 
@@ -110,11 +104,17 @@
                 </div>
             @endif
         </div>
+        <div>
+            @if(session('exist'))
+                <div style="background-color:#ff4d4d; color:white; padding:9px; border-radius:4px; margin-bottom: 10px;">
+                    {{ session('exist') }}
+                </div>
+            @endif
+        </div>
 
         
         <div x-cloak>
-        @include('pages.user-management.partials.tabs')
-
+       
             {{--User List--}}
             <div class=" bg-white rounded-lg p-4 shadow-md">
                 @include('components.alertbar')
@@ -147,23 +147,24 @@
                             </thead>
                             <tbody class="divide-y">
 
-                                @foreach($data as $key => $item)
-
+                                @foreach($departments as $key => $department)
                                     <tr class="text-gray-500 dark:text-gray-400 cursor-point hover:bg-blue-200 transition-all duration-150">
                                         <td class="p-3">
                                             {{ $key }}
                                         </td>
                                         <td class="p-3">
-                                            {{ $item->department }}
+                                            {{ $department->department }}
                                         </td>
                                         <td class="p-3">
-                                            {{ $departmentStatuses[$item->department] }}
+                        {{                  
+                        $department->status
+                        }}
                                         </td>
                                         <td class="p-3">
-                                            {{ $item['updated_at'] }}
+                                            {{ $department['updated_at'] }}
                                         </td>
                                         <td class="p-3">
-                                            {{ $item['created_at'] }}
+                                            {{ $department['created_at'] }}
                                         </td>
                                         <td class="p-3 font-normal text-sm">
                                             @if(Auth::user()->role == 'user' || Auth::user()->role == 'User')
@@ -171,14 +172,53 @@
                                                     Available for admins only
                                                 </div>                
                                             @else
-                                                <div style="float:left; margin-right:10px">
-                                                    <a href="{{ route('edit.form', $item->id) }}" role="button" style="float:lelft">
+                                                
+  
+  
+ <div x-data="{'showEditModalDepartment': false }" >
+
+    {{--Modal - Edit Department --}}
+    <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showEditModalDepartment" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showEditModalDepartment }" x-cloak>
+
+
+        <!--Dialog-->
+        <div class="bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg p-4 text-left" x-show="showEditModalDepartment" @click.away="showEditModalDepartment = false"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-90"
+        x-transition:enter-end="opacity-100 scale-100" >
+
+            <!--Title-->
+            <div class="flex justify-between items-center mb-2">
+                <p class="font-bold text-[#313346] mb-2 uppercase">Edit Department</p>
+                <div class="cursor-pointer z-50" @click="showModalDepartment = false">
+                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                    </svg>
+                </div>
+            </div>
+            <form action="{{ route('edit_department.auth', $department->id) }}" method="POST">
+                @csrf
+                <div class="font-bold text-[#313346] mb-2 uppercase">Department</div>
+                <input type="text" name="department" value="{{ $department->department }}" required autofocus class="p-2 border border-[#8a82a1] hover:border-[#4d7ebd] focus:border-[#4d7ebd] hover:text-[#4d7ebd] focus:text-[#4d7ebd] rounded-lg w-full outline-none mb-4">
+                @error('department')
+                    <span style="color:red">{{ $message }}</span>
+                @enderror
+                <div class="text-right mt-8 mb-2">
+                    <a href="" class="text-red-400 hover:text-white hover:bg-red-400 mr-4 font-medium px-4 py-2 rounded-lg border-red-400 border transition-all duration-300">Cancel</a>
+                    <button type="submit" id="update-button">
+                        <span  @click="openTab = 2" class="cursor-pointer px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg">Update</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!--/Dialog -->
+    </div>                                                 
+                        <div style="float:left; margin-right: 10px">                                   <a @click="showEditModalDepartment = true" role="button">
                                                         <x-icons.edit/>
                                                     </a>
                                                 </div>                             
-                                                <div style="float:left">
-                                                    <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
-                                                        <x-icons.delete/>
+                                                
+                         <div style="float:left;">                           <a href="{{ route('department_rec.destroy', $department->id) }}" role="button"  onclick="return confirm('Are you sure you want to delete this department?')" >                                                      <x-icons.delete/>
                                                     </a>
                                                 </div>        
                                             @endif      
@@ -186,7 +226,6 @@
                                     </tr>
 
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -201,6 +240,14 @@
 <script>
     document.getElementById('save-button').addEventListener('click', function(event) {
         if (!confirm('Are you sure you want to save?')) {
+            event.preventDefault(); 
+        }
+    });
+</script>
+
+<script>
+  document.getElementById('update-button').addEventListener('click', function(event) {
+        if (!confirm('Are you sure you want to update?')) {
             event.preventDefault(); 
         }
     });
