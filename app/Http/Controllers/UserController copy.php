@@ -14,6 +14,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+  
+  public function departmentsPage() {
+        $departments = Department::all();
+        
+        foreach($departments as $department)
+        {
+          // Count all users in the department (active and inactive)
+        $userCount = User::where('department_id', $department->id)->count();
+        // Store the user count in the department object
+        $department->userCount = $userCount;
+        
+        return view('pages.user-management.department.index', compact('departments'));
+        }
+    }
+  
+  
     public function userAccount(Request $req)
     {
         // Form Regex Validation

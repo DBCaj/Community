@@ -47,36 +47,32 @@
                     </thead>
                     <tbody class="divide-y">
 
-                        @foreach($data as $key => $item)
+                        @foreach($roles as $role)
 
                             <tr class="text-gray-500 dark:text-gray-400 cursor-point hover:bg-blue-200 transition-all duration-150">
                                 <td class="p-3">
-                                    {{ $key }}
+                                    {{ $role->userCount }}
                                 </td>
                                 <td class="p-3">
-                                    {{ $item->role}}
+                                    {{ $role->role}}
                                 </td>
                                 <td class="p-3">
-                                    @if($item['role'] == 'admin')
+                                    @if($role['role'] == 'admin')
                                         Write
-                                    @elseif($item['role'] == 'Admin')
+                                    @elseif($role['role'] == 'Admin')
                                         Write
                                     @else
                                         Read
                                     @endif
                                 </td>
                                 <td class="p-3">
-                                    @if($item['status'] == 0)
-                                        Inactive
-                                    @else
-                                        Active
-                                    @endif
+                                  {{ $role->status }}
                                 </td>
                                 <td class="p-3">
-                                    {{ $item['updated_at'] }}
+                                    {{ $role['updated_at'] }}
                                 </td>
                                 <td class="p-3">
-                                    {{ $item['created_at'] }}
+                                    {{ $role['created_at'] }}
                                 </td>
                                 <td class="p-3 font-normal text-sm">
                                     @if(Auth::user()->role == 'user' || Auth::user()->role == 'User')
@@ -85,12 +81,12 @@
                                         </div>                
                                     @else
                                         <div style="float:left; margin-right:10px">
-                                            <a href="{{ route('edit.form', $item->id) }}" role="button" style="float:lelft">
+                                            <a href="{{ route('edit.form', $role->id) }}" role="button" style="float:lelft">
                                                 <x-icons.edit/>
                                             </a>
                                         </div>                             
                                         <div style="float:left">
-                                            <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
+                                            <a href="{{ url('/delete-rec/' . $role->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$role->id}}').submit();" >
                                                 <x-icons.delete/>
                                             </a>
                                         </div>        

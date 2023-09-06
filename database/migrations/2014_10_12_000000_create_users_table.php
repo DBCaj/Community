@@ -28,7 +28,9 @@ class CreateUsersTable extends Migration
             $table->integer('age')->nullable();
             $table->string('gender');
             $table->string('role')->default('user');
+            $table->foreignId('role_id')->constrained('roles')->nullable();
             $table->string('department');
+            $table->foreignId('department_id')->constrained('departments')->nullable();
             $table->string('contact');
             $table->string('house_lot_block_street');
             $table->string('country');
@@ -37,8 +39,12 @@ class CreateUsersTable extends Migration
             $table->string('barangay');
             $table->string('zip_code');
             $table->integer('status')->nullable();
+            $table->string('image_name')->nullable();
+            $table->string('image_size')->nullable();
+            $table->string('image_location')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('last_activity')->nullable();
             $table->softDeletes();
         });
     }

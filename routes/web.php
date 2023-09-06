@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryBuilderController;
@@ -53,7 +54,7 @@ Route::middleware('custom_auth')->group(function() {
     Route::post('/add-auth', [UserController::class, 'userAccount'])->name('add.userAccount');
 
     //roles
-    Route::get('/user-management/roles', [UserController::class, 'rolesPage'])->name('roles');
+    Route::get('/user-management/roles', [RoleController::class, 'rolesPage'])->name('roles');
 
     //department
     Route::get('pages/user-management/department', [UserController::class, 'departmentsPage'])->name('department');

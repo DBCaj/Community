@@ -90,4 +90,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Department::class, 'department_id', 'id');
     }
     /////// One to One Relation - End ///////
+    
+    
+    /////// One to One Relation - Start ///////
+    public function roleInfo()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+    /////// One to One Relation - End ///////
 }

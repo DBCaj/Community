@@ -1,11 +1,11 @@
-* user-management/department. Recreate Department Page.
-	- limit features for role user.
-	- Make a component for two modals (Edit, Delete) to make the code cleanier.
-	- modal update button confirmation not working.
+* pages/user-management/user-information/edit:
+  - nothing happens when submitting the form.
+  - change the submit button text from 'save' to 'update'. Same goes for confirmation.
 	
 * Update dependencies (package.json, I modified this because I got an email about security risk regarding the app) by running "npm install" on PC.
 	
 * Fix the table output in roles page (must be similar to department page).
+  - fix duplication table values.
 	
 * on User List Page. Use accessor to capitalize all the department's value.
 	
@@ -29,7 +29,6 @@
 
 --------------------------------------------------------------------------------
 
-COMMITS: 09-04-2023
+COMMITS: 09-06-2023
 
-- Modified DatabaseSeeder
-- Updates dependencies (package.json)
+- Modified DatabaseSeeder, Fixed Roles Page Backend.

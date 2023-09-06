@@ -90,15 +90,6 @@ class UserController extends Controller
     }
 
 
-    public function rolesPage() {
-        $data = User::all();
-
-        return view('pages.user-management.roles.index',
-        [
-            'data' => $data,
-        ]);
-    }
-
 
     public function departmentsPage() {
         $countData = Department::whereNull('deleted_at')->count();
@@ -110,6 +101,11 @@ class UserController extends Controller
         
         foreach($departments as $department)
         {
+          // Count all users in the department (active and inactive)
+        $userCount = User::where('department_id', $department->id)->count();
+        // Store the user count in the department object
+        $department->userCount = $userCount;
+          
           //checks if department_id also exist in departments table
           //checks user status active count. 
           $activeUserCount = User::where('department_id', $department->id)

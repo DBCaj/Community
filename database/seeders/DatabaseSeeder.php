@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Department;
+use App\Models\Role;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -29,7 +31,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '1',
         'role' => 'admin',
+        'role_id' => 1,
         'department' => 'IT',
+        'department_id' => 1,
         'contact' => '0947624' . mt_rand(0001,9999),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -38,7 +42,6 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "1",
-        'department_id' => 1,
       ]);
       
       
@@ -54,7 +57,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'user',
+        'role_id' => 2,
         'department' => 'SA',
+        'department_id' => 2,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -63,7 +68,6 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "0",
-        'department_id' => 2,
       ]);
       
       
@@ -79,7 +83,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '1',
         'role' => 'admin',
+        'role_id' => 1,
         'department' => 'Networking',
+        'department_id' => 3,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -88,7 +94,6 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "1",
-        'department_id' => 3,
       ]);
       
       
@@ -104,7 +109,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'admin',
+        'role_id' => 1,
         'department' => 'Networking',
+        'department_id' => 3,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -127,7 +134,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '1',
         'role' => 'user',
+        'role_id' => 2,
         'department' => 'SA',
+        'department_id' => 2,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -135,8 +144,7 @@ class DatabaseSeeder extends Seeder
         'municipality' => 'test',
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
-        'status' => "1",
-        'department_id' => 2,
+        'status' => "0",
       ]);
       
       
@@ -152,7 +160,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'admin',
+        'role_id' => 1,
         'department' => 'IT',
+        'department_id' => 1,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -161,7 +171,6 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "1",
-        'department_id' => 1,
       ]);
       
       
@@ -176,8 +185,10 @@ class DatabaseSeeder extends Seeder
         'birth_year' => '19' . mt_rand(50,99),
         'age' => mt_rand(18,70),
         'gender' => '0',
-        'role' => 'uset',
+        'role' => 'user',
+        'role_id' => 2,
         'department' => 'HR',
+        'department_id' => 4,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -186,8 +197,29 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "0",
-        'department_id' => 4,
       ]);
+      
+      
+      Department::create([
+        'department' => 'IT',
+        ]);
+      Department::create([
+        'department' => 'SA',
+        ]);
+      Department::create([
+        'department' => 'NETWORKING',
+        ]);
+      Department::create([
+        'department' => 'HR',
+        ]);
+        
+       
+      Role::create([
+        'role' => 'Admin',
+        ]);
+      Role::create([
+        'role' => 'User',
+        ]);
       
     }
 }

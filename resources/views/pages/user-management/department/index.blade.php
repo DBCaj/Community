@@ -32,6 +32,7 @@
                     </svg>
                 </div>
             </div>
+            
             <form action="{{ route('department.save') }}" method="POST">
                 @csrf
                 <div class="font-bold text-[#313346] mb-2 uppercase">Department</div>
@@ -48,8 +49,7 @@
             </form>
         </div>
         <!--/Dialog -->
-    </div>
-    
+    </div>  
     
 
     @include('pages.user-management.partials.tabs')
@@ -59,6 +59,7 @@
 
         @include('components.alertbar')
 
+        @if(Auth::user()->role == 'admin' || Auth::user()->role == 'Admin')
         <div class="flex justify-between lg:items-center flex-col lg:flex-row mb-4">
             <div class="flex justify-start mb-4 lg:mb-0">
                 <a @click="showModalDepartment = true" class="cursor-pointer px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg flex items-center"><span><svg class="w-4 h-4 text-white mr-2" aria-hidden="true" focusable="false" data-prefix="far" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg></span> Add Department</a>
@@ -96,6 +97,45 @@
 
             </div>
         </div>
+        @else
+        <div class="flex justify-between lg:items-center flex-col lg:flex-row mb-4">
+            <div class="flex justify-start mb-4 lg:mb-0">
+                <a class="cursor-pointer px-4 py-2 font-medium text-white bg-[#05a85c] hover:bg-[#437a61] transition-all duration-500 rounded-lg flex items-center"><span><svg class="w-4 h-4 text-white mr-2" aria-hidden="true" focusable="false" data-prefix="far" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg></span> Add Department (Available for admins)</a>
+            </div>
+
+            {{--COUNT--}}
+            <div class="flex gap-4">
+
+                <span class="border w-20 sm:w-32 rounded-md p-2 border-[#2e83d9] bg-[#2e83d9] bg-opacity-10 text-blue-500">
+                    <div class="font-semibold">
+                        Total
+                    </div>
+                    <div class="text-right font-bold text-lg">
+                         {{ $countData }}
+                    </div>
+                </span>
+
+                <span class="border w-20 sm:w-32 rounded-md p-2 border-green-500 bg-green-500 bg-opacity-10 text-green-500">
+                    <div class="font-semibold">
+                        Active
+                    </div>
+                    <div class="text-right font-bold text-lg">
+                        {{ $activeDepartmentsCount }}
+                    </div>
+                </span>
+
+                <span class="border w-20 sm:w-32 rounded-md p-2 border-red-500 bg-red-500 bg-opacity-10 text-red-500">
+                    <div class="font-semibold">
+                        Inactive
+                    </div>
+                    <div class="text-right font-bold text-lg">
+                        {{ $inactiveDepartmentsCount }}
+                    </div>
+                </span>
+
+            </div>
+        </div>
+        @endif
 
         <div>
             @if(session('success'))
@@ -147,11 +187,13 @@
                             </thead>
                             <tbody class="divide-y">
 
-                                @foreach($departments as $key => $department)
+                                @foreach($departments as $department)
                                     <tr class="text-gray-500 dark:text-gray-400 cursor-point hover:bg-blue-200 transition-all duration-150">
+                
                                         <td class="p-3">
-                                            {{ $key }}
+                        {{ $department->userCount }}               
                                         </td>
+                                 
                                         <td class="p-3">
                                             {{ $department->department }}
                                         </td>
@@ -212,7 +254,7 @@
             </form>
         </div>
         <!--/Dialog -->
-    </div>                                                 
+    </div>                                        
                         <div style="float:left; margin-right: 10px">                                   <a @click="showEditModalDepartment = true" role="button">
                                                         <x-icons.edit/>
                                                     </a>
