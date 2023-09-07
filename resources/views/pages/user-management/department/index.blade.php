@@ -255,14 +255,28 @@
         </div>
         <!--/Dialog -->
     </div>                                        
-                        <div style="float:left; margin-right: 10px">                                   <a @click="showEditModalDepartment = true" role="button">
-                                                        <x-icons.edit/>
-                                                    </a>
-                                                </div>                             
+                        <div style="float:left; margin-right: 10px">                                   
+                            <a 
+                            data-toggle="tooltip" 
+                            data-placement="left" 
+                            title="Edit"
+                            @click="showEditModalDepartment = true" 
+                            role="button">
+                                <x-icons.edit/>
+                            </a>
+                        </div>                             
                                                 
-                         <div style="float:left;">                           <a href="{{ route('department_rec.destroy', $department->id) }}" role="button"  onclick="return confirm('Are you sure you want to delete this department?')" >                                                      <x-icons.delete/>
-                                                    </a>
-                                                </div>        
+                        <div style="float:left;">                           
+                            <a 
+                            data-toggle="tooltip" 
+                            data-placement="left" 
+                            title="Delete"
+                            href="{{ route('department_rec.destroy', $department->id) }}" 
+                            role="button"  
+                            onclick="return confirm('Are you sure you want to delete this department?')" >                                                      
+                                <x-icons.delete/>
+                            </a>
+                        </div>        
                                             @endif      
                                         </td>
                                     </tr>

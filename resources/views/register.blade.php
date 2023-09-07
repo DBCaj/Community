@@ -23,6 +23,6 @@
     </style>
 </head>
 <body>
-    @include('includes.register-form');
+    @include('includes.register-form')
 </body>
 </html>

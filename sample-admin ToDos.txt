@@ -1,18 +1,14 @@
 * fix store function in edit, add, and Register Page.
   -> fix image update function error for Edit Page.
 
-	
-* Fix the table output in roles page (must be similar to department page).
-  - fix duplication table values.
-	
 
-* on User List Page. Use accessor to capitalize all the department's value.
+* implement features under Monitoring Page.
 	
 
 * Fix the edit user page. If user has profile picture then don't render the upload image feature.
 
 
-* Limit features for user accounts like User Management.
+* Limit features for user accounts (except for User Management).
 
 
 * 'user-management/user-information/create'
@@ -22,23 +18,16 @@
 * Fix the label alignment in form under register and add user.
 
 
-* Modify databales show entries to 5 pagination only.
-
-
 * Fix 'gender' overlapping when in mobile screens under register, add, edit.
 
 
 * Change tabs name, because it is named as 'solid'.
 
 
-* remove this unnecessary character ";" rendering in register page. Use PC with dev tool to pinpoint the line of code.
-
-
 --------------------------------------------------------------------------------
+
 
 COMMITS: 09-07-2023
 
-- fixed validation rule for adding user.
-- fixed image store function error under Add, Edit, and Register Page.
-- added tool tip for edit and delete icons.
-- added unique email validation rule.
+- added tooltip for edit and delete icons under Roles and Department Page.
+- removed unnecessary character rendering under register page.

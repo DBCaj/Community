@@ -64,9 +64,11 @@
                     value="{{ $acc->email }}"
                     type="email" 
                     name="email" 
-                    disabled
                     class="pt-2 pl-2 pb-1 block w-full mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#016e34] border-gray-200"
                     />
+                    @error('email')
+                        <span style="color:red">{{ $message }}</span>
+                    @enderror
                     <label for="email" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Email Address</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
                 </div>
