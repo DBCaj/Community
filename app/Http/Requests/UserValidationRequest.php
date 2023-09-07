@@ -24,7 +24,7 @@ class UserValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required | email',
+            'email' => 'required|unique:users|max:255',
             'password' => 'required | confirmed | min:6',
             'firstname' => 'required | alpha:ascii | min:3 | regex:/^\S+$/',
             'middlename' => 'nullable | alpha:ascii | min:3 | regex:/^\S+$/',

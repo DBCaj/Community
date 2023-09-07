@@ -163,12 +163,25 @@
                                     </div>                
                                 @else
                                     <div style="float:left; margin-right:10px">
-                                        <a href="{{ route('edit.form', $item->id) }}" role="button" style="float:lelft">
+                                        <a 
+                                        data-toggle="tooltip" 
+                                        data-placement="left" 
+                                        title="Edit"
+                                        href="{{ route('edit.form', $item->id) }}" 
+                                        role="button" 
+                                        style="float:lelft">
                                             <x-icons.edit/>
                                         </a>
                                     </div>                             
                                     <div style="float:left">
-                                        <a href="{{ url('/delete-rec/' . $item->id) }}" role="button" style="float:lelft" onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
+                                        <a 
+                                        data-toggle="tooltip" 
+                                        data-placement="left" 
+                                        title="Delete"
+                                        href="{{ url('/delete-rec/' . $item->id) }}" 
+                                        role="button" 
+                                        style="float:lelft" 
+                                        onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$item->id}}').submit();" >
                                             <x-icons.delete/>
                                         </a>
                                     </div>        

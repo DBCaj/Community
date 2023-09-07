@@ -63,7 +63,7 @@
                     @error('email')
                     <span style="color:red">{{ $message }}</span>
                     @enderror
-                    <label for="email_address" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Email Address</label>
+                    <label for="email" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Email Address</label>
                     <span class="text-sm text-red-600 hidden" id="error">SAMPLE</span>
                 </div>
 

@@ -100,6 +100,8 @@ class AuthController extends Controller
 
   public function registerAuth(Request $req)
   {
+    $departments = Department::all();
+
     $validator = Validator::make($req->all(), (new UserValidationRequest)->rules());
     
     if($validator->fails())
@@ -110,43 +112,122 @@ class AuthController extends Controller
     }
 
 
-    //image
-    $filename = $req->image->getClientOriginalName();
-    $filesize = $req->image->getSize();
-    $req->image->storeAs('public/', $filename);
+    foreach ($departments as $department) {
+      $department = Department::where('department', $req->department)->first();
+
+      if ($department) {
+        if ($req->image !== null)
+        {
+          $filename = $req->image->getClientOriginalName();
+          $filesize = $req->image->getSize();
+          $req->image->storeAs('public/', $filename);
+
+          User::create([
+            'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
+            'email' => $req->email,
+            'password' => Hash::make($req->password),
+            'firstname' => $req->firstname,
+            'middlename' => $req->middlename,
+            'lastname' => $req->lastname,
+            'birth_month' => $req->birth_month,
+            'birth_day' => $req->birth_day,
+            'birth_year' => $req->birth_year,
+            'age' => $req->age,
+            'gender' => $req->gender,
+            'role' => $req->role,
+            'role_id' => $req->role == 'Admin' || $req->role == 'admin' ? 1 : 2,
+            'department' => $req->department,
+            'department_id' => $department->id,
+            'contact' => $req->contact,
+            'house_lot_block_street' => $req->house_lot_block_street,
+            'country' => $req->country,
+            'province' => $req->province,
+            'municipality' => $req->municipality,
+            'barangay' => $req->barangay,
+            'zip_code' => $req->zip_code,
+            'status' => "1",
+            'image_name' => $filename,
+            'image_size' => $filesize,
+            'image_location' => 'storage/' . $filename,
+          ]);
+
+          $req->session()->flash('success', 'User added successfully');
+      
+          return redirect()->back();
+        }
+        else {
+          User::create([
+            'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
+            'email' => $req->email,
+            'password' => Hash::make($req->password),
+            'firstname' => $req->firstname,
+            'middlename' => $req->middlename,
+            'lastname' => $req->lastname,
+            'birth_month' => $req->birth_month,
+            'birth_day' => $req->birth_day,
+            'birth_year' => $req->birth_year,
+            'age' => $req->age,
+            'gender' => $req->gender,
+            'role' => $req->role,
+            'role_id' => $req->role == 'Admin' || $req->role == 'admin' ? 1 : 2,
+            'department' => $req->department,
+            'department_id' => $department->id,
+            'contact' => $req->contact,
+            'house_lot_block_street' => $req->house_lot_block_street,
+            'country' => $req->country,
+            'province' => $req->province,
+            'municipality' => $req->municipality,
+            'barangay' => $req->barangay,
+            'zip_code' => $req->zip_code,
+            'status' => "1",
+          ]);
+
+          $req->session()->flash('success', 'User added successfully');
+      
+          return redirect()->back();
+        }
+      }
+      else {
+        return "Error occurred";
+      }
+      
+    }
 
 
-    User::create([
-      'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
-      'email' => $req->email,
-      'password' => Hash::make($req->password),
-      'firstname' => $req->firstname,
-      'middlename' => $req->middlename,
-      'lastname' => $req->lastname,
-      'birth_month' => $req->birth_month,
-      'birth_day' => $req->birth_day,
-      'birth_year' => $req->birth_year,
-      'age' => $req->age,
-      'gender' => $req->gender,
-      'role' => $req->role,
-      'department' => $req->department,
-      'contact' => $req->contact,
-      'house_lot_block_street' => $req->house_lot_block_street,
-      'country' => $req->country,
-      'province' => $req->province,
-      'municipality' => $req->municipality,
-      'barangay' => $req->barangay,
-      'zip_code' => $req->zip_code,
-      'status' => "1",
-      'image_name' => $filename,
-      'image_size' => $filesize,
-      'image_location' => 'storage/' . $filename,
-    ]);
+    // User::create([
+    //   'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
+    //   'email' => $req->email,
+    //   'password' => Hash::make($req->password),
+    //   'firstname' => $req->firstname,
+    //   'middlename' => $req->middlename,
+    //   'lastname' => $req->lastname,
+    //   'birth_month' => $req->birth_month,
+    //   'birth_day' => $req->birth_day,
+    //   'birth_year' => $req->birth_year,
+    //   'age' => $req->age,
+    //   'gender' => $req->gender,
+    //   'role' => $req->role,
+    //   'department' => $req->department,
+    //   'contact' => $req->contact,
+    //   'house_lot_block_street' => $req->house_lot_block_street,
+    //   'country' => $req->country,
+    //   'province' => $req->province,
+    //   'municipality' => $req->municipality,
+    //   'barangay' => $req->barangay,
+    //   'zip_code' => $req->zip_code,
+    //   'status' => "1",
+    //   // 'image_name' => $filename,
+    //   // 'image_size' => $filesize,
+    //   // 'image_location' => 'storage/' . $filename,
+    // ]);
       
 
-    $req->session()->flash('success', 'User added successfully');
+    // $req->session()->flash('success', 'User added successfully');
     
-    return redirect()->back();
+    // return redirect()->back();
+      
+
+    
   }
   
   

@@ -148,10 +148,12 @@ class UserController extends Controller
 
     public function editAuth(Request $req)
     {
+        $departments = Department::all();
+
         $user = User::findOrFail($req->useracc);
 
         $validator = Validator::make($req->all(), [
-            'email' => 'required | email',
+            // 'email' => 'required|email|max:255',
             'password' => 'nullable | confirmed | min:6',
             'firstname' => 'required | alpha:ascii | min:3 | regex:/^\S+$/',
             'middlename' => 'nullable | alpha:ascii | min:3 | regex:/^\S+$/',
@@ -161,7 +163,7 @@ class UserController extends Controller
             'birth_year' => 'required',
             'gender' => 'required',
             'department' => 'required',
-            'age' => 'nullable',
+            // 'age' => 'nullable',
             'status' => 'nullable',
             'role' => 'required',
             'contact' => 'required | phone:PH',
@@ -171,7 +173,7 @@ class UserController extends Controller
             'municipality' => 'required',
             'barangay' => 'required',
             'zip_code' => 'required | numeric',
-            'image' => 'nullable | mimes:jpg,png,jpeg',
+            // 'image' => 'nullable | mimes:jpg,png,jpeg',
         ]);
 
         if($validator->fails())
@@ -181,31 +183,48 @@ class UserController extends Controller
         ->withInput();
         }
 
-        DB::table('users')
-        ->where('id', $req->useracc)
-        ->update([
-            'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
-            'email' => $req->email,
-            'password' => Hash::make($req->password),
-            'firstname' => $req->firstname,
-            'middlename' => $req->middlename,
-            'lastname' => $req->lastname,
-            'birth_month' => $req->birth_month,
-            'birth_day' => $req->birth_day,
-            'birth_year' => $req->birth_year,
-            'age' => $req->age,
-            'gender' => $req->gender,
-            'role' => $req->role,
-            'department' => $req->department,
-            'contact' => $req->contact,
-            'house_lot_block_street' => $req->house_lot_block_street,
-            'country' => $req->country,
-            'province' => $req->province,
-            'municipality' => $req->municipality,
-            'barangay' => $req->barangay,
-            'zip_code' => $req->zip_code,
-            'status' => $req->status,
-        ]);
+        
+
+        foreach ($departments as $department) {
+          $department = Department::where('department', $req->department)->first();
+  
+          if ($department) {
+            DB::table('users')
+            ->where('id', $req->useracc)
+            ->update([
+                'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
+                'email' => $req->email,
+                'password' => Hash::make($req->password),
+                'firstname' => $req->firstname,
+                'middlename' => $req->middlename,
+                'lastname' => $req->lastname,
+                'birth_month' => $req->birth_month,
+                'birth_day' => $req->birth_day,
+                'birth_year' => $req->birth_year,
+                'age' => $req->age,
+                'gender' => $req->gender,
+                'role' => $req->role,
+                'role_id' => $req->role == 'Admin' || $req->role == 'admin' ? '1' : '2',
+                'department' => $req->department,
+                'department_id' => $department->id,
+                'contact' => $req->contact,
+                'house_lot_block_street' => $req->house_lot_block_street,
+                'country' => $req->country,
+                'province' => $req->province,
+                'municipality' => $req->municipality,
+                'barangay' => $req->barangay,
+                'zip_code' => $req->zip_code,
+                'status' => $req->status,
+    
+                // TEST
+                // 'image_name' => $filename,
+                // 'image_size' => $filesize,
+                // 'image_location' => 'storage/' . $filename,
+            ]);
+
+          }
+        }
+
 
         $req->session()->flash('success', 'User updated successfully');
         

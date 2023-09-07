@@ -27,7 +27,8 @@
 <a href="{{ route('login.form') }}" style="color:white; text-decoration:underline">Back</a>
 <br><br>
     
-<form action="{{ route('edit.auth') }}" method="POST" enctype="multipart/form-data">
+<!-- <form action="{{ route('edit.auth') }}" method="POST" enctype="multipart/form-data"> -->
+<form action="{{ route('edit.auth') }}" method="POST">
 @csrf
 
 <input type="hidden" name="useracc" value="{{ $acc->id }}">
@@ -47,7 +48,7 @@
     
             <div class="flex justify-center flex-col">
 
-                <div class="text-center">
+                <!-- <div class="text-center">
                     <div style="position: relative; display: inline-block;">
                         <img id="previewImage" src="{{ $acc->image_location == true ? asset($acc->image_location) : asset('assets/placeholder/blank-person.png') }}" class="w-32 h-32 rounded-full mb-4" alt="blank-person">
                         <input type="file" id="imageUpload" name="image" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0; cursor: pointer;">
@@ -55,7 +56,7 @@
                     </div>
                 </div>
 
-                <br><br>
+                <br><br> -->
 
                 <div class="relative z-0 w-full mb-5">
                     <input 
@@ -477,8 +478,8 @@ option value="{{ $department->department }}">{{ $department->department }}</opti
 </div>
 
 <div class="flex gap-2 justify-end">
-    <button type="submit" style="padding: 15px; width: 170px" class="py-1 px-3 bg-green-500 rounded text-white" onclick="return confirm('Are you sure you want to save?')">
-        Save
+    <button type="submit" style="padding: 15px; width: 170px" class="py-1 px-3 bg-green-500 rounded text-white" onclick="return confirm('Are you sure you want to update?')">
+        Update
     </button>
 </div>
 
