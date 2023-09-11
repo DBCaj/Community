@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "1",
+        'login_attempts' => 0,
       ]);
       
       
@@ -68,6 +69,8 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "0",
+        'activity' => "User tried to login but failed due to account is inactive.",
+        'login_attempts' => 1,
       ]);
       
       
@@ -94,6 +97,7 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "1",
+        'login_attempts' => 4,
       ]);
       
       
@@ -120,6 +124,8 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "0",
+        'activity' => "User tried to login but failed due to account is inactive.",
+        'login_attempts' => 3,
       ]);
       
       User::create([
@@ -145,6 +151,8 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "0",
+        'activity' => "User tried to login but failed due to invalid credentials.",
+        'login_attempts' => 2,
       ]);
       
       
@@ -171,6 +179,8 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "1",
+        'activity' => "User tried to login but failed due to invalid credentials.",
+        'login_attempts' => 6,
       ]);
       
       
@@ -197,6 +207,8 @@ class DatabaseSeeder extends Seeder
         'barangay' => 'test',
         'zip_code' => mt_rand(1000,4900),
         'status' => "0",
+        'activity' => "User tried to login but failed due to invalid credentials.",
+        'login_attempts' => 5,
       ]);
       
       

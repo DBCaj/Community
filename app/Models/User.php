@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'image_name',
         'image_size',
         'image_location',
+        'last_activity',
+        'activity',
     ];
 
     /**
@@ -77,6 +80,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getRoleAttribute($value)
     {
         return ucFirst($value);
+    }
+    
+    
+    public function getDepartmentAttribute($value)
+    {
+        return Str::of($value)->upper();
     }
 
 

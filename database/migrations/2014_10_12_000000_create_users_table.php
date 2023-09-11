@@ -44,7 +44,7 @@ class CreateUsersTable extends Migration
             $table->string('image_location')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->timestamp('last_activity')->nullable();
+            $table->timestamp('last_activity')->nullable();  //last login
             $table->softDeletes();
         });
     }

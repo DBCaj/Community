@@ -1,21 +1,9 @@
 * fix store function in edit, add, and Register Page.
   -> fix image update function error for Edit Page.
-
-
-* implement features under Monitoring Page.
 	
 
-* Fix the edit user page. If user has profile picture then don't render the upload image feature.
-
-
-* Limit features for user accounts (except for User Management).
-
-
-* 'user-management/user-information/create'
-	- implement storing 'age' value in DatabaseSeeder for users.
-
-
-* Fix the label alignment in form under register and add user.
+* Fix the edit user page:
+  - nothing happens when you click update button.
 
 
 * Fix 'gender' overlapping when in mobile screens under register, add, edit.
@@ -27,7 +15,9 @@
 --------------------------------------------------------------------------------
 
 
-COMMITS: 09-07-2023
+COMMITS: 09-11-2023
 
-- added tooltip for edit and delete icons under Roles and Department Page.
-- removed unnecessary character rendering under register page.
+- added activity functionality under department page.
+- Added login attempts functionality and display it under Monitoring table view.
+- Modifed DatabaseSeeder.
+- Removed Columns 'Date Created' and 'Actions' under Roles page.

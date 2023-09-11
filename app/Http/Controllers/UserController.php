@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Department;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
@@ -148,31 +150,31 @@ class UserController extends Controller
 
     public function editAuth(Request $req)
     {
-        $departments = Department::all();
+        // $departments = Department::all();
 
         $user = User::findOrFail($req->useracc);
 
         $validator = Validator::make($req->all(), [
-            // 'email' => 'required|email|max:255',
-            'password' => 'nullable | confirmed | min:6',
-            'firstname' => 'required | alpha:ascii | min:3 | regex:/^\S+$/',
-            'middlename' => 'nullable | alpha:ascii | min:3 | regex:/^\S+$/',
-            'lastname' => 'required | alpha:ascii | min:3 | regex:/^\S+$/',
+            'email' => 'nullable',
+            'password' => 'nullable|confirmed|min:6',
+            'firstname' => 'required|min:3|regex:/^\S+$/',
+            'middlename' => 'nullable|min:3|regex:/^\S+$/',
+            'lastname' => 'required|min:3|regex:/^\S+$/',
             'birth_month' => 'required',
             'birth_day' => 'required',
             'birth_year' => 'required',
             'gender' => 'required',
             'department' => 'required',
-            // 'age' => 'nullable',
-            'status' => 'nullable',
+            'age' => 'nullable',
+            'status' => 'required',
             'role' => 'required',
-            'contact' => 'required | phone:PH',
+            'contact' => 'required|phone:PH',
             'house_lot_block_street' => 'required',
             'country' => 'required',
             'province' => 'required',
             'municipality' => 'required',
             'barangay' => 'required',
-            'zip_code' => 'required | numeric',
+            'zip_code' => 'required|numeric',
             // 'image' => 'nullable | mimes:jpg,png,jpeg',
         ]);
 
@@ -182,19 +184,58 @@ class UserController extends Controller
         ->withErrors($validator)
         ->withInput();
         }
-
         
-
-        foreach ($departments as $department) {
-          $department = Department::where('department', $req->department)->first();
-  
-          if ($department) {
-            DB::table('users')
+        // if ($req->image !== null)
+        // {
+        //   $filesize = $req->image->getSize();
+        //   $filesize = $req->image->getSize();
+        //   $req->image->storeAs('public/', $filename);            $req->image->storeAs('public/', $filename);
+              
+        //   DB::table('users')
+        //     ->where('id', $req->useracc)
+        //     ->update([
+        //         'email' => $req->email,
+        //         'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
+        //         'password' => Hash::make($req->password),
+        //         'firstname' => $req->firstname,
+        //         'middlename' => $req->middlename,
+        //         'lastname' => $req->lastname,
+        //         'birth_month' => $req->birth_month,
+        //         'birth_day' => $req->birth_day,
+        //         'birth_year' => $req->birth_year,
+        //         'age' => $req->age,
+        //         'gender' => $req->gender,
+        //         'role' => $req->role,
+        //         'department' => $req->department,
+        //         'contact' => $req->contact,
+        //         'house_lot_block_street' => $req->house_lot_block_street,
+        //         'country' => $req->country,
+        //         'province' => $req->province,
+        //         'municipality' => $req->municipality,
+        //         'barangay' => $req->barangay,
+        //         'zip_code' => $req->zip_code,
+        //         'status' => $req->status,
+    
+        //         // TEST
+        //         'image_name' => $filename,
+        //         'image_size' => $filesize,
+        //         'image_location' => 'storage/' . $filename,
+        //     ]);
+            
+        //   // DB::table('users')->where('id', $req->current_user_id)->update([
+        //   //     'activity' => 'This user has just edited user detail.',
+        //   //     ]);
+              
+        //   $req->session()->flash('success', 'User updated successfully');
+        
+        //   return redirect('/show-rec');  
+        // }
+        // else {
+          DB::table('users')
             ->where('id', $req->useracc)
             ->update([
                 'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
-                'email' => $req->email,
-                'password' => Hash::make($req->password),
+                // 'password' => Hash::make($req->password),
                 'firstname' => $req->firstname,
                 'middlename' => $req->middlename,
                 'lastname' => $req->lastname,
@@ -204,9 +245,7 @@ class UserController extends Controller
                 'age' => $req->age,
                 'gender' => $req->gender,
                 'role' => $req->role,
-                'role_id' => $req->role == 'Admin' || $req->role == 'admin' ? '1' : '2',
                 'department' => $req->department,
-                'department_id' => $department->id,
                 'contact' => $req->contact,
                 'house_lot_block_street' => $req->house_lot_block_street,
                 'country' => $req->country,
@@ -215,20 +254,16 @@ class UserController extends Controller
                 'barangay' => $req->barangay,
                 'zip_code' => $req->zip_code,
                 'status' => $req->status,
-    
-                // TEST
-                // 'image_name' => $filename,
-                // 'image_size' => $filesize,
-                // 'image_location' => 'storage/' . $filename,
             ]);
-
-          }
-        }
-
-
-        $req->session()->flash('success', 'User updated successfully');
+            
+          // DB::table('users')->where('id', $req->current_user_id)->update([
+          //     'activity' => 'This user has just edited user detail.',
+          //     ]);
+              
+          $req->session()->flash('success', 'User updated successfully');
         
-        return redirect('/show-rec');    
+          return redirect('/show-rec');  
+        // }
     }
 
 
@@ -255,6 +290,11 @@ class UserController extends Controller
           Department::create([
             'department' => Str::of($req->department)->upper(),
             ]);
+            
+          $user = Auth::user();
+          $user->activity = "This user has just added new department called " . Str::of($req->department)->upper() . ".";
+          $user->save();
+            
           $req->session()->flash('success', 'Department added successfully');
           return redirect()->back();
         }

@@ -188,6 +188,7 @@
                             <tbody class="divide-y">
 
                                 @foreach($departments as $department)
+         
                                     <tr class="text-gray-500 dark:text-gray-400 cursor-point hover:bg-blue-200 transition-all duration-150">
                 
                                         <td class="p-3">

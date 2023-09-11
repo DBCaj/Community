@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Department;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
@@ -13,6 +14,12 @@ class DepartmentController extends Controller
   public function destroy(Request $req, string $dept)
     {
       $data = Department::find($dept);
+      $department_name = $data->department;
+      
+      $user = Auth::user();
+      $user->activity = "This user has just deleted a department called " . $department_name . ".";
+      $user->save();
+      
       $data->delete();
        
       $req->session()->flash('deleted', 'Department Deleted Successfully!');
@@ -34,6 +41,10 @@ class DepartmentController extends Controller
         ->withErrors($validator)
         ->withInput();
         }
+        
+        $user = Auth::user();
+        $user->activity = "This user has just updated a department name from " . $req->department . " to " . Str::of($req->department)->upper() . ".";
+        $user->save();
 
         DB::table('departments')
         ->where('id', $dept)

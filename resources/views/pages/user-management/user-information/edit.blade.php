@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<a href="{{ route('login.form') }}" style="color:white; text-decoration:underline">Back</a>
+<a href="{{ url('/show-rec') }}" style="color:white; text-decoration:underline">Back</a>
 <br><br>
     
 <!-- <form action="{{ route('edit.auth') }}" method="POST" enctype="multipart/form-data"> -->
@@ -33,11 +33,8 @@
 
 <input type="hidden" name="useracc" value="{{ $acc->id }}">
 
-@if(session('success'))
-    <div style="background-color:lightgreen; padding:9px; border-radius:4px; margin-bottom: 10px;">
-        {{ session('success') }}
-    </div>
-@endif
+<input type="hidden" name="current_user_id" value="{{ Auth::user()->id }}">
+<input type="hidden" name="current_user_name" value="{{ Auth::user()->name }}">
 
 <div class="flex gap-4 mb-2">
     <div>
@@ -48,19 +45,19 @@
     
             <div class="flex justify-center flex-col">
 
-                <!-- <div class="text-center">
-                    <div style="position: relative; display: inline-block;">
-                        <img id="previewImage" src="{{ $acc->image_location == true ? asset($acc->image_location) : asset('assets/placeholder/blank-person.png') }}" class="w-32 h-32 rounded-full mb-4" alt="blank-person">
-                        <input type="file" id="imageUpload" name="image" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0; cursor: pointer;">
-                        <label for="image" class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">Upload Image</label>
-                    </div>
-                </div>
+                <!-- <div class="text-center">-->
+                <!--    <div style="position: relative; display: inline-block;">-->
+                <!--        <img id="previewImage" src="{{ $acc->image_location == true ? asset($acc->image_location) : asset('assets/placeholder/blank-person.png') }}" class="w-32 h-32 rounded-full mb-4" alt="blank-person">-->
+                <!--        <input type="file" id="imageUpload" name="image" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0; cursor: pointer;">-->
+                <!--        <label for="image" class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">Upload Image</label>-->
+                <!--    </div>-->
+                <!--</div>-->
 
-                <br><br> -->
+                <!--<br><br> -->
 
                 <div class="relative z-0 w-full mb-5">
-                    <input 
-                    autofocus
+                    <input
+                   
                     value="{{ $acc->email }}"
                     type="email" 
                     name="email" 
@@ -340,6 +337,7 @@ option value="{{ $department->department }}">{{ $department->department }}</opti
 
                 <div class="relative z-0 w-full mb-5">
                     <select 
+                    required
                     name="status" 
                     class="pt-2 pl-2 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200" >
                         <option value="{{ $acc->status }}" selected disabled hidden>{{ $acc->status == 1 ? 'Active' : 'Inactive' }}</option>

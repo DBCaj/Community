@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+
 use App\Models\User;
+
 use App\Models\Department;
 use App\Http\Requests\UserValidationRequest;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +32,6 @@ class AuthController extends Controller
     { 
       try {
 
-
         //used for Auth::guard only  
         $credentials = [
           'email' => $req->email,
@@ -37,7 +40,6 @@ class AuthController extends Controller
         ];  
         
         $remember = $req->has('remember');
-
 
         if(Auth::guard('web')->viaRemember())
         {
@@ -53,6 +55,9 @@ class AuthController extends Controller
           //updates login_activity column
           $user = Auth::user();
           $user->last_activity = Carbon::now();
+          
+          $user->login_attempts = 0;
+          
           $user->save();
           
           $req->session()->put('user', $req->input('email'));
@@ -60,20 +65,39 @@ class AuthController extends Controller
         }
         elseif(Auth::attempt(['email' => $req->email, 'password' => $req->password, 'status' => 0]))
         {
+          $user = Auth::user();
+          $user->activity = "User tried to login but failed due to account is inactive.";
+          $user->save();
+          
           return back()
             ->withErrors([
               'invalid' => 'Account Inactive. Please contact customer support.',
               ])
             ->withInput();
         }
-        else {
-          return back()
-            ->withErrors([
-              'invalid' => 'Invalid Credentials',
-              ])
-            ->withInput();
+        elseif(Auth::attempt(['email' => $req->email, 'password' => $req->password]) == false)
+        {
+            $user = Auth::user();
+        
+            // Check if the user has a 'login_attempts' attribute, and if not, initialize it to 0
+            if (!$user->login_attempts) {
+                $user->login_attempts = 0;
+            }
+        
+            // Increment the login attempts
+            $user->login_attempts++;
+            
+            $user->activity = "User tried to login but failed due to invalid credentials.";
+        
+            // Save the updated login attempts count to the database
+            $user->save();
+        
+            return back()
+                ->withErrors([
+                    'invalid' => 'Invalid Credentials',
+                ])
+                ->withInput();
         }
-
 
       } catch (\Exception $exception) {
           dd($exception->getMessage());
@@ -192,42 +216,6 @@ class AuthController extends Controller
       }
       
     }
-
-
-    // User::create([
-    //   'name' => $req->firstname . " " . $req->middlename . " " . $req->lastname,
-    //   'email' => $req->email,
-    //   'password' => Hash::make($req->password),
-    //   'firstname' => $req->firstname,
-    //   'middlename' => $req->middlename,
-    //   'lastname' => $req->lastname,
-    //   'birth_month' => $req->birth_month,
-    //   'birth_day' => $req->birth_day,
-    //   'birth_year' => $req->birth_year,
-    //   'age' => $req->age,
-    //   'gender' => $req->gender,
-    //   'role' => $req->role,
-    //   'department' => $req->department,
-    //   'contact' => $req->contact,
-    //   'house_lot_block_street' => $req->house_lot_block_street,
-    //   'country' => $req->country,
-    //   'province' => $req->province,
-    //   'municipality' => $req->municipality,
-    //   'barangay' => $req->barangay,
-    //   'zip_code' => $req->zip_code,
-    //   'status' => "1",
-    //   // 'image_name' => $filename,
-    //   // 'image_size' => $filesize,
-    //   // 'image_location' => 'storage/' . $filename,
-    // ]);
-      
-
-    // $req->session()->flash('success', 'User added successfully');
-    
-    // return redirect()->back();
-      
-
-    
   }
   
   

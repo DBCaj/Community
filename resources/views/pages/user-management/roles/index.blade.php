@@ -41,8 +41,6 @@
                             <th class="p-3 font-normal">Access</th>
                             <th class="p-3 font-normal">Status</th>
                             <th class="p-3 font-normal">Date Update</th>
-                            <th class="p-3 font-normal">Date Added</th>
-                            <th class="p-3 font-normal">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
@@ -70,40 +68,6 @@
                                 </td>
                                 <td class="p-3">
                                     {{ $role['updated_at'] }}
-                                </td>
-                                <td class="p-3">
-                                    {{ $role['created_at'] }}
-                                </td>
-                                <td class="p-3 font-normal text-sm">
-                                    @if(Auth::user()->role == 'user' || Auth::user()->role == 'User')
-                                        <div style="color:red">
-                                            Available for admins only
-                                        </div>                
-                                    @else
-                                        <div style="float:left; margin-right:10px">
-                                            <a 
-                                            data-toggle="tooltip" 
-                                            data-placement="left" 
-                                            title="Edit"
-                                            href="{{ route('edit.form', $role->id) }}" 
-                                            role="button" 
-                                            style="float:lelft">
-                                                <x-icons.edit/>
-                                            </a>
-                                        </div>                             
-                                        <div style="float:left">
-                                            <a 
-                                            data-toggle="tooltip" 
-                                            data-placement="left" 
-                                            title="Delete"
-                                            href="{{ url('/delete-rec/' . $role->id) }}" 
-                                            role="button" 
-                                            style="float:lelft" 
-                                            onclick="return confirm('Are you sure you want to delete this user?'); event.preventDefault(); document.getElementById('delete-form-{{$role->id}}').submit();" >
-                                                <x-icons.delete/>
-                                            </a>
-                                        </div>        
-                                    @endif      
                                 </td>
                             </tr>
                         @endforeach

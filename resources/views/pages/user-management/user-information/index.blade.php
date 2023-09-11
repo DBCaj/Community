@@ -84,6 +84,12 @@
                     {{ Session::get('deleted') }}
                 </div>
             @endif    
+            
+            @if(Session::get('success'))
+                <div style="background-color:lightgreen; padding:9px; border-radius:4px; margin-bottom: 20px;">
+                    {{ Session::get('success') }}
+                </div>
+            @endif    
 
                 <table class="whitespace-nowrap w-full display" id="myTable">
                     <thead class="text-left border-b border-gray-600 text-gray-600">

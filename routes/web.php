@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\MonitoringController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryBuilderController;
 
@@ -48,7 +49,6 @@ Route::middleware('custom_auth')->group(function() {
 
     ///user-management - create records
     Route::get('/user-management/user-information/create', [UserController::class,'addUserForm'])->name('user-information-create');
-    // Route::view('/user-management/user-information/create', 'pages.user-management.user-information.create')->name('user-information-create');
 
     // Create Account Auth
     Route::post('/add-auth', [UserController::class, 'userAccount'])->name('add.userAccount');
@@ -63,7 +63,8 @@ Route::middleware('custom_auth')->group(function() {
     //store department
     Route::post('/department-auth', [UserController::class, 'saveDepartment'])->name('department.save');
 
-    Route::view('/user-management/monitoring', 'pages/user-management/monitoring/index')->name('user-management-monitoring');
+    //monitoring page
+    Route::get('/user-management/monitoring', [MonitoringController::class, 'monitoring'])->name('user-management-monitoring');
 
     //user-management
     Route::view('/supporting-system/user-information', 'pages/supporting-system/user-information/index')->name('support-user-information');
