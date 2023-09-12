@@ -13,6 +13,10 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        /*
+        IMPORTANT NOTE: 
+        To avoid seeding error. Before seeding, goto (e.g., Laragon and set the default value of 'role_id' and 'department_id' to NULL).
+        */
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -28,9 +32,7 @@ class CreateUsersTable extends Migration
             $table->integer('age')->nullable();
             $table->string('gender');
             $table->string('role')->default('user');
-            $table->foreignId('role_id')->constrained('roles')->nullable();
             $table->string('department');
-            $table->foreignId('department_id')->constrained('departments')->nullable();
             $table->string('contact');
             $table->string('house_lot_block_street');
             $table->string('country');
@@ -45,6 +47,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('last_activity')->nullable();  //last login
+            $table->text('activity')->nullable();
+            $table->integer('login_attempts')->default(0);
             $table->softDeletes();
         });
     }

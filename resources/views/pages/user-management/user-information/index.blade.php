@@ -172,10 +172,12 @@
                                         <a 
                                         data-toggle="tooltip" 
                                         data-placement="left" 
-                                        title="Edit"
-                                        href="{{ route('edit.form', $item->id) }}" 
+                                        title="Not Available"
+                                        href="#" 
                                         role="button" 
-                                        style="float:lelft">
+                                        style="float:lelft"
+                                        onclick="return confirm('This feature is not available temporarily.')"
+                                        >
                                             <x-icons.edit/>
                                         </a>
                                     </div>                             

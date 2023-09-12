@@ -110,7 +110,7 @@
 
 
             {{-- Seller Management --}}
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <div class="{{ Request::is('branch-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-300 -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -128,10 +128,10 @@
 
                     </a>
                 </div>
-            </li>
+            </li> -->
 
             {{-- Buyer Management --}}
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <div class="{{ Request::is('buyer-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-300 -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -149,10 +149,10 @@
 
                     </a>
                 </div>
-            </li>
+            </li> -->
 
             {{-- Inventory Management --}}
-            <li class="relative mb-1" x-data="{ open: false }">
+            <!-- <li class="relative mb-1" x-data="{ open: false }">
                 <div class="{{ Request::is('inventory-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-500 -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -205,10 +205,10 @@
                         </ul>
                     </div>
                 </template>
-            </li>
+            </li> -->
 
             {{-- Sales and Promotions --}}
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <div class="{{ Request::is('sales-and-promo*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-[600ms] -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -226,10 +226,10 @@
 
                     </a>
                 </div>
-            </li>
+            </li> -->
 
             {{-- Courier Management --}}
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <div class="{{ Request::is('courier-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-[700ms] -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -247,10 +247,10 @@
 
                     </a>
                 </div>
-            </li>
+            </li> -->
 
             {{-- Order Management --}}
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <div class="{{ Request::is('order-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-[800ms] -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -268,10 +268,10 @@
 
                     </a>
                 </div>
-            </li>
+            </li> -->
 
             {{-- Billing Management --}}
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <div class="{{ Request::is('billing-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-[900ms] -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -289,10 +289,10 @@
 
                     </a>
                 </div>
-            </li>
+            </li> -->
 
             {{-- System Management --}}
-            <li class="relative mb-1" x-data="{ open: false }">
+            <!-- <li class="relative mb-1" x-data="{ open: false }">
                 <div class="{{ Request::is('system-management*') ? 'transform-none transition-none' : 'transform transition-all' }} duration-500 delay-1000 -translate-x-12 opacity-0"
                     data-replace='{ "-translate-x-12": "translate-x-0", "opacity-0": "opacity-100"}'>
 
@@ -381,7 +381,7 @@
                         </ul>
                     </div>
                 </template>
-            </li>
+            </li> -->
 
             {{-- Pabili Service --}}
             {{-- <li class="mb-1">

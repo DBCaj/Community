@@ -15,9 +15,10 @@
 --------------------------------------------------------------------------------
 
 
-COMMITS: 09-11-2023
+COMMITS: 09-12-2023
 
-- added activity functionality under department page.
-- Added login attempts functionality and display it under Monitoring table view.
-- Modifed DatabaseSeeder.
-- Removed Columns 'Date Created' and 'Actions' under Roles page.
+IMPROVEMENTS:
+- modified migration files and seeder file.
+- temporarily disabled edit functionality under user list page.
+- made a database backup.
+- removed some side panel features.

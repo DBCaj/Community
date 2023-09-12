@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solid</title>
+    <title>Community</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="{{asset('js/app.js')}}"></script>
@@ -30,14 +30,22 @@
 
                             <div>
                                 <label for="email" class="block text-sm text-gray-700 dark:text-gray-400">Email</label>
-                                <input type="email" name="email" value="{{ old('email') }}" required
+                                <input 
+                                type="email" 
+                                name="email" 
+                                value="josh123@gmail.com" 
+                                required
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-[#016e34] focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     placeholder="cassandra@gmail.com">
                             </div>
 
                             <div>
                                 <label for="password" class="block mt-4 text-sm text-gray-700 dark:text-gray-400">Password</label>
-                                <input type="password" name="password" required
+                                <input 
+                                type="password" 
+                                name="password" 
+                                value="joshpass123"
+                                required
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-[#016e34] focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     placeholder="***************">
                             </div>

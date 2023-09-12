@@ -7,6 +7,8 @@ use App\Models\Department;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 
 class DatabaseSeeder extends Seeder
@@ -31,9 +33,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '1',
         'role' => 'admin',
-        'role_id' => 1,
+        // 'role_id' => 1,
         'department' => 'IT',
-        'department_id' => 1,
+        // 'department_id' => 1,
         'contact' => '0947624' . mt_rand(0001,9999),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -44,6 +46,7 @@ class DatabaseSeeder extends Seeder
         'status' => "1",
         'login_attempts' => 0,
       ]);
+      
       
       
       User::create([
@@ -58,9 +61,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'user',
-        'role_id' => 2,
+        // 'role_id' => 2,
         'department' => 'SA',
-        'department_id' => 2,
+        // 'department_id' => 2,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -72,6 +75,7 @@ class DatabaseSeeder extends Seeder
         'activity' => "User tried to login but failed due to account is inactive.",
         'login_attempts' => 1,
       ]);
+      
       
       
       User::create([
@@ -86,9 +90,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '1',
         'role' => 'admin',
-        'role_id' => 1,
+        // 'role_id' => 1,
         'department' => 'Networking',
-        'department_id' => 3,
+        // 'department_id' => 3,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -99,6 +103,7 @@ class DatabaseSeeder extends Seeder
         'status' => "1",
         'login_attempts' => 4,
       ]);
+      
       
       
       User::create([
@@ -113,9 +118,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'admin',
-        'role_id' => 1,
+        // 'role_id' => 1,
         'department' => 'Networking',
-        'department_id' => 3,
+        // 'department_id' => 3,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -127,6 +132,7 @@ class DatabaseSeeder extends Seeder
         'activity' => "User tried to login but failed due to account is inactive.",
         'login_attempts' => 3,
       ]);
+      
       
       User::create([
         'name' => 'Manuel Santiago',
@@ -140,9 +146,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '1',
         'role' => 'user',
-        'role_id' => 2,
+        // 'role_id' => 2,
         'department' => 'SA',
-        'department_id' => 2,
+        // 'department_id' => 2,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -154,6 +160,7 @@ class DatabaseSeeder extends Seeder
         'activity' => "User tried to login but failed due to invalid credentials.",
         'login_attempts' => 2,
       ]);
+      
       
       
       User::create([
@@ -168,9 +175,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'admin',
-        'role_id' => 1,
+        // 'role_id' => 1,
         'department' => 'IT',
-        'department_id' => 1,
+        // 'department_id' => 1,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -182,6 +189,7 @@ class DatabaseSeeder extends Seeder
         'activity' => "User tried to login but failed due to invalid credentials.",
         'login_attempts' => 6,
       ]);
+      
       
       
       User::create([
@@ -196,9 +204,9 @@ class DatabaseSeeder extends Seeder
         'age' => mt_rand(18,70),
         'gender' => '0',
         'role' => 'user',
-        'role_id' => 2,
+        // 'role_id' => 2,
         'department' => 'HR',
-        'department_id' => 4,
+        // 'department_id' => 4,
         'contact' => '0947624' . mt_rand(0101,9089),
         'house_lot_block_street' => 'test',
         'country' => 'PH',
@@ -210,6 +218,7 @@ class DatabaseSeeder extends Seeder
         'activity' => "User tried to login but failed due to invalid credentials.",
         'login_attempts' => 5,
       ]);
+      
       
       
       Department::create([
@@ -231,6 +240,42 @@ class DatabaseSeeder extends Seeder
         ]);
       Role::create([
         'role' => 'User',
+        ]);
+
+      
+        DB::table('users')->where('id',1)->update([
+          'role_id' => 1,
+          'department_id' => 1,
+        ]);
+
+        DB::table('users')->where('id',2)->update([
+          'role_id' => 2,
+          'department_id' => 2,
+        ]);
+
+        DB::table('users')->where('id',3)->update([
+          'role_id' => 1,
+          'department_id' => 3,
+        ]);
+
+        DB::table('users')->where('id',4)->update([
+          'role_id' => 1,
+          'department_id' => 3,
+        ]);
+
+        DB::table('users')->where('id',5)->update([
+          'role_id' => 2,
+          'department_id' => 2,
+        ]);
+
+        DB::table('users')->where('id',6)->update([
+          'role_id' => 1,
+          'department_id' => 1,
+        ]);
+
+        DB::table('users')->where('id',7)->update([
+          'role_id' => 2,
+          'department_id' => 4,
         ]);
       
     }
